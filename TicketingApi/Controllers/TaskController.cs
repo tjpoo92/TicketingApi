@@ -12,5 +12,8 @@
 // Put
 // UpdateTask
 
+// Patch
+// PatchTask
+
 // Delete
 // DeleteTask

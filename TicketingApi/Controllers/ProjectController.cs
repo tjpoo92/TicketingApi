@@ -12,5 +12,8 @@
 // Put
 // UpdateProject
 
+// Patch
+// PatchProject
+
 // Delete
 // DeleteProject

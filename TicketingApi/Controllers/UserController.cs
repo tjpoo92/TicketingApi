@@ -12,5 +12,8 @@
 // Put
 // UpdateUser
 
+// Patch
+// PatchUser
+
 // Delete
 // DeleteUser
