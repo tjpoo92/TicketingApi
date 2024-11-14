@@ -6,7 +6,11 @@ using TicketingApi.Models;
 [Route("api/[controller]")]
 
 public class ProjectController : Controller {
-    // Add service reference when created
+    private readonly IProjectService _projectService;
+
+    public ProjectController(IProjectService projectService) {
+        _projectService = projectService;
+    }
 
     [HttpGet]
     public async Task<ActionResult<IEnumerable<ProjectModel>>> GetAllProjects() {
