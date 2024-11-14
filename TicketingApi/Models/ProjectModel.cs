@@ -2,13 +2,14 @@
 
 public class ProjectModel
 {
-	public int project_id { get; set; }
-	// TODO: Figure out FKs: created_by
-	public DateTime date_due { get; set; }
-	public DateTime date_completed { get; set; }
-	public string project_name { get; set; }
-	public string project_description { get; set; }
-	// TODO: Create enums: status and priority
-	public DateTime created_at { get; set; }
-	public DateTime updated_at { get; set; }
+	public int ProjectId { get; set; } // PK
+    public int CreatedBy { get; set; } // FK users.UserId
+    public DateTime DateDue { get; set; }
+	public DateTime DateCompleted { get; set; }
+	public string ProjectName { get; set; }
+	public string ProjectDescription { get; set; }
+	public Status Status { get; set; }
+    public Priority Priority { get; set; }
+    public DateTime CreatedAt { get; set; }
+	public DateTime UpdatedAt { get; set; }
 }

@@ -2,14 +2,17 @@
 
 public class TaskModel
 {
-	public int task_id { get; set; }
-    // TODO: Figure out FKs: project_id, created_by, assigned_to
-    public DateTime date_due { get; set; }
-    public DateTime date_completed { get; set; }
-    public string task_name { get; set; }
-    public string task_description { get; set; }
-    // TODO: Create enums: status and priority
-    public int predessor_task { get; set; }
-	public DateTime created_at { get; set; }
-	public DateTime updated_at { get; set; }
+	public int TaskId { get; set; } // PK
+    public int ProjectId { get; set; } // FK projects.ProjectId
+    public int CreatedBy { get; set; } // FK users.UserId
+    public int AssignedTo { get; set; } // FK users.UserId
+    public DateTime DateDue { get; set; }
+    public DateTime DateCompleted { get; set; }
+    public string TaskName { get; set; }
+    public string TaskDescription { get; set; }
+	public Status Status { get; set; }
+	public Priority Priority { get; set; }
+	public int PredessorTask { get; set; }
+	public DateTime CreatedAt { get; set; }
+	public DateTime UpdatedAt { get; set; }
 }
