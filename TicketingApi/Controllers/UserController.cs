@@ -6,30 +6,34 @@ using TicketingApi.Models;
 [Route("api/[controller]")]
 
 public class UserController : Controller {
-    // Add service reference when created
+    private readonly IUserService _userService;
+
+    public UserController (IUserService userService) {
+        _userService = userService;
+    }
 
     [HttpGet]
     public async Task<ActionResult<IEnumerable<UserModel>>> GetAllUsers() {
-        var users = ""; //Service Call
+        var users = await _userService.GetAllUsersAsync();
         return Ok(users);
     }
 
     [HttpGet("{id}")]
     public async Task<ActionResult<UserModel>> GetUserByID(int id) {
-        var user = ""; // Service Call
+        var user = await _userService.GetUserByIdAsync(id);
         if (user == null) return NotFound();
         return Ok(user);
     }
 
     [HttpGet("{userID}/tasks")]
     public async Task<ActionResult<IEnumerable<Task>>> GetTasksForUser(int userID) {
-        var tasks = ""; // Service Call
+        var tasks = await _userService.GetTasksByUserIdAsync(userID);
         return Ok(tasks);
     }
 
     [HttpPost]
     public async Task<ActionResult<UserModel>> CreateUser(UserModel user) {
-        var newUser = ""; //Service call
+        var newUser = await _userService.CreateUserAsync(user);
         return CreatedAtAction(nameof(GetUserByID), new {id=newUser.user_id}, newUser);
     }
 
@@ -37,7 +41,7 @@ public class UserController : Controller {
     public async Task<IActionResult> UpdateUser(int id, UserModel user) {
         if (id != user.user_id) return BadRequest();
 
-        // Service Call
+        await _userService.UpdateUserAsync(user);
         return NoContent();
     }
 
@@ -45,20 +49,20 @@ public class UserController : Controller {
     public async Task<IActionResult> PatchUser(int id, [FromBody] JsonPatchDocument<UserModel> patchDocument) {
         if (patchDocument == null) return BadRequest();
 
-        var user = ""; // Service Call
+        var user = await _userService.GetUserByIdAsync(id);
         if (user == null) return NotFound();
 
         patchDocument.ApplyTo(user, ModelState);
 
         if (!ModelState.IsValid) return BadRequest(ModelState);
 
-        // Service Call
+        await _userService.UpdateUserAsync(user);
         return NoContent();
     }
 
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteUser(int id) {
-        //Service Call
+        await _userService.DeleteUserAsync(id);
         return NoContent();
     }
 

@@ -1,7 +1,7 @@
 using TicketingApi.Models;
 
 public class TaskService : ITaskService {
-    public readonly ITaskRepository _taskRepository;
+    private readonly ITaskRepository _taskRepository;
 
     public TaskService(ITaskRepository taskRepository) {
         _taskRepository = taskRepository;
