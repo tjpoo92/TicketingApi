@@ -6,24 +6,28 @@ using TicketingApi.Models;
 [Route("api/[controller]")]
 
 public class TaskController : Controller {
-    // Add service reference when created
+    private readonly ITaskService _taskService;
+
+    public TaskController(ITaskService taskService) {
+        _taskService = taskService;
+    }
 
     [HttpGet]
     public async Task<ActionResult<IEnumerable<TaskModel>>> GetAllTasks() {
-        var tasks = ""; //Service Call
+        var tasks = await _taskService.GetAllTasksAsync();
         return Ok(tasks);
     }
 
     [HttpGet("{id}")]
     public async Task<ActionResult<TaskModel>> GetTaskByID(int id) {
-        var task = ""; // Service Call
+        var task = await _taskService.GetTaskByIdAsync(id);
         if (task == null) return NotFound();
         return Ok(task);
     }
 
     [HttpPost]
     public async Task<ActionResult<TaskModel>> CreateTask(TaskModel task) {
-        var newTask = ""; //Service call
+        var newTask = await _taskService.CreateTaskAsync(task);
         return CreatedAtAction(nameof(GetTaskByID), new {id=newTask.task_id}, newTask);
     }
 
@@ -31,7 +35,7 @@ public class TaskController : Controller {
     public async Task<IActionResult> UpdateTask(int id, TaskModel task) {
         if (id != task.task_id) return BadRequest();
 
-        // Service Call
+        await _taskService.UpdateTaskAsync(task);
         return NoContent();
     }
 
@@ -39,20 +43,20 @@ public class TaskController : Controller {
     public async Task<IActionResult> PatchTask(int id, [FromBody] JsonPatchDocument<TaskModel> patchDocument) {
         if (patchDocument == null) return BadRequest();
 
-        var task = ""; // Service Call
+        var task = await _taskService.GetTaskByIdAsync(id);
         if (task == null) return NotFound();
 
         patchDocument.ApplyTo(task, ModelState);
 
         if (!ModelState.IsValid) return BadRequest(ModelState);
 
-        // Service Call
+        await _taskService.UpdateTaskAsync(task);
         return NoContent();
     }
 
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteTask(int id) {
-        //Service Call
+        await _taskService.DeleteTaskAsync(id);
         return NoContent();
     }
 

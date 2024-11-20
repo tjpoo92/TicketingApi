@@ -6,30 +6,34 @@ using TicketingApi.Models;
 [Route("api/[controller]")]
 
 public class ProjectController : Controller {
-    // Add service reference when created
+    private readonly IProjectService _projectService;
+
+    public ProjectController(IProjectService projectService) {
+        _projectService = projectService;
+    }
 
     [HttpGet]
     public async Task<ActionResult<IEnumerable<ProjectModel>>> GetAllProjects() {
-        var projects = ""; //Service Call
+        var projects = await _projectService.GetAllProjectsAsync();
         return Ok(projects);
     }
 
     [HttpGet("{id}")]
     public async Task<ActionResult<ProjectModel>> GetProjectByID(int id) {
-        var project = ""; // Service Call
+        var project = await _projectService.GetProjectByIdAsync(id);
         if (project == null) return NotFound();
         return Ok(project);
     }
 
     [HttpGet("{projectID}/tasks")]
     public async Task<ActionResult<IEnumerable<Task>>> GetTasksForProject(int projectID) {
-        var tasks = ""; // Service Call
+        var tasks = await _projectService.GetTasksByProjectIdAsync(projectID);
         return Ok(tasks);
     }
 
     [HttpPost]
     public async Task<ActionResult<ProjectModel>> CreateProject(ProjectModel project) {
-        var newProject = ""; //Service call
+        var newProject = await _projectService.CreateProjectAsync(project);
         return CreatedAtAction(nameof(GetProjectByID), new {id=newProject.project_id}, newProject);
     }
 
@@ -37,7 +41,7 @@ public class ProjectController : Controller {
     public async Task<IActionResult> UpdateProject(int id, ProjectModel project) {
         if (id != project.project_id) return BadRequest();
 
-        // Service Call
+        await _projectService.UpdateProjectAsync(project);
         return NoContent();
     }
 
@@ -45,21 +49,20 @@ public class ProjectController : Controller {
     public async Task<IActionResult> PatchProject(int id, [FromBody] JsonPatchDocument<ProjectModel> patchDocument) {
         if (patchDocument == null) return BadRequest();
 
-        var project = ""; // Service Call
+        var project = await _projectService.GetProjectByIdAsync(id);
         if (project == null) return NotFound();
 
         patchDocument.ApplyTo(project, ModelState);
 
         if (!ModelState.IsValid) return BadRequest(ModelState);
 
-        // Service Call
+        await _projectService.UpdateProjectAsync(project);
         return NoContent();
     }
 
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteProject(int id) {
-        //Service Call
+        await _projectService.DeleteProjectAsync(id);
         return NoContent();
     }
-
 }
