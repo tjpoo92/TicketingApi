@@ -1,5 +1,14 @@
 using TicketingApi.Models;
 
+public class ProjectServiceValidator {
+    // Validator for each method
+    // Valid integer checks
+    // Validate response objects aren't null
+    // Validate any required fields
+
+
+}
+
 public class ProjectService : IProjectService {
     private readonly IProjectRepository _projectRepository;
 
@@ -35,7 +44,7 @@ public class ProjectService : IProjectService {
 
     public async Task UpdateProjectAsync(ProjectModel project)
     {
-        var existingProject = await _projectRepository.GetProjectByIdAsync(project.project_id);
+        var existingProject = await _projectRepository.GetProjectByIdAsync(project.ProjectId);
         if (existingProject == null) {
             throw new KeyNotFoundException("Project not found");
         }

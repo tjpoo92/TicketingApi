@@ -1,5 +1,14 @@
 using TicketingApi.Models;
 
+public class UserServiceValidator {
+    // Validator for each method
+    // Valid integer checks
+    // Validate response objects aren't null
+    // Validate any required fields
+
+
+}
+
 public class UserService : IUserService {
     private readonly IUserRepository _userRepository;
 
@@ -37,7 +46,7 @@ public class UserService : IUserService {
 
     public async Task UpdateUserAsync(UserModel user)
     {
-        var existingUser = await _userRepository.GetUserByIdAsync(user.user_id);
+        var existingUser = await _userRepository.GetUserByIdAsync(user.UserId);
         if (existingUser == null) {
             throw new KeyNotFoundException("User not found");
         }
