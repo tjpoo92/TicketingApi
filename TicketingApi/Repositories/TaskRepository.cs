@@ -11,6 +11,16 @@ public class TaskRepository : ITaskRepository
     {
         throw new NotImplementedException();
     }
+
+    public Task<IEnumerable<TaskModel>> GetTasksByProjectIdAsync(int projectID)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<IEnumerable<TaskModel>> GetTasksByUserIdAsync(int userID)
+    {
+        throw new NotImplementedException();
+    }
     
     public Task<TaskModel> CreateTaskAsync(TaskModel task)
     {

@@ -30,6 +30,24 @@ public class TaskService : ITaskService {
         return task;
     }
 
+    public async Task<IEnumerable<TaskModel>> GetTasksByProjectIdAsync(int projectID)
+    {
+        var tasks = await _taskRepository.GetTasksByProjectIdAsync(projectID);
+        if (tasks == null) {
+            throw new KeyNotFoundException("Tasks not found.");
+        }
+        return tasks;
+    }
+
+        public async Task<IEnumerable<TaskModel>> GetTasksByUserIdAsync(int userID)
+    {
+        var tasks = await _taskRepository.GetTasksByUserIdAsync(userID);
+        if (tasks == null) {
+            throw new KeyNotFoundException("Tasks not found");
+        }
+        return tasks;
+    }
+
     public async Task<TaskModel> CreateTaskAsync(TaskModel task)
     {
         return await _taskRepository.CreateTaskAsync(task);

@@ -28,15 +28,6 @@ public class ProjectService : IProjectService {
         return project;
     }
 
-    public async Task<IEnumerable<TaskModel>> GetTasksByProjectIdAsync(int projectID)
-    {
-        var tasks = await _projectRepository.GetTasksByProjectIdAsync(projectID);
-        if (tasks == null) {
-            throw new KeyNotFoundException("Tasks not found.");
-        }
-        return tasks;
-    }
-
     public async Task<ProjectModel> CreateProjectAsync(ProjectModel project)
     {
         return await _projectRepository.CreateProjectAsync(project);

@@ -11,11 +11,6 @@ public class UserRepository : IUserRepository
     {
         throw new NotImplementedException();
     }
-
-    public Task<IEnumerable<TaskModel>> GetTasksByUserIdAsync(int userID)
-    {
-        throw new NotImplementedException();
-    }
     
     public Task<UserModel> CreateUserAsync(UserModel user)
     {
