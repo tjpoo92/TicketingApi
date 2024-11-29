@@ -1,5 +1,7 @@
 using TicketingApi;
 using TicketingApi.Models;
+using System.Collections.Generic;
+using System.Linq;
 
 public class UserRepository : IUserRepository
 {
