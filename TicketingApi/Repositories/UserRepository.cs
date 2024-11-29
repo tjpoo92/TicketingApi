@@ -6,7 +6,7 @@ public class UserRepository : IUserRepository
     private readonly string _connectionString;
     private SqlDataAccess db = new SqlDataAccess();
 
-    public UserRepository(string connectionString)
+	public UserRepository(string connectionString)
     {
         _connectionString = connectionString;
     }
@@ -23,11 +23,6 @@ public class UserRepository : IUserRepository
         string sql = "SELECT * FROM dbo.users WHERE user_id = @Id";
         List<UserModel> output = await db.LoadDataAsync<UserModel, dynamic>(sql, new { Id = id }, _connectionString);
 		return output.First();
-    }
-
-    public Task<IEnumerable<TaskModel>> GetTasksByUserIdAsync(int userID)
-    {
-        throw new NotImplementedException();
     }
 
 	public async Task CreateUserAsync(UserModel user)
