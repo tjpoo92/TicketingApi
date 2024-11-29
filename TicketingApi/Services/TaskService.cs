@@ -1,5 +1,14 @@
 using TicketingApi.Models;
 
+public class TaskServiceValidator {
+    // Validator for each method
+    // Valid integer checks
+    // Validate response objects aren't null
+    // Validate any required fields
+
+
+}
+
 public class TaskService : ITaskService {
     private readonly ITaskRepository _taskRepository;
 
@@ -21,6 +30,24 @@ public class TaskService : ITaskService {
         return task;
     }
 
+    public async Task<IEnumerable<TaskModel>> GetTasksByProjectIdAsync(int projectID)
+    {
+        var tasks = await _taskRepository.GetTasksByProjectIdAsync(projectID);
+        if (tasks == null) {
+            throw new KeyNotFoundException("Tasks not found.");
+        }
+        return tasks;
+    }
+
+        public async Task<IEnumerable<TaskModel>> GetTasksByUserIdAsync(int userID)
+    {
+        var tasks = await _taskRepository.GetTasksByUserIdAsync(userID);
+        if (tasks == null) {
+            throw new KeyNotFoundException("Tasks not found");
+        }
+        return tasks;
+    }
+
     public async Task<TaskModel> CreateTaskAsync(TaskModel task)
     {
         return await _taskRepository.CreateTaskAsync(task);
@@ -28,7 +55,7 @@ public class TaskService : ITaskService {
 
     public async Task UpdateTaskAsync(TaskModel task)
     {
-        var existingTask = await _taskRepository.GetTaskByIdAsync(task.task_id);
+        var existingTask = await _taskRepository.GetTaskByIdAsync(task.TaskId);
         if (existingTask == null) {
             throw new KeyNotFoundException("Task not found");
         }

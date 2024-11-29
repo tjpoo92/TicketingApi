@@ -1,10 +1,28 @@
 using TicketingApi.Models;
 
-public class UserService : IUserService {
+public class UserServiceValidator {
+    // Validator for each method
+    // Valid integer checks
+    // Validate response objects aren't null
+    // Validate any required fields
+
+
     private readonly IUserRepository _userRepository;
 
-    public UserService(IUserRepository userRepository) {
+    public UserServiceValidator(IUserRepository userRepository) {
+        _userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
+    }
+
+
+}
+
+public class UserService : IUserService {
+    private readonly IUserRepository _userRepository;
+    private readonly UserServiceValidator _validator;
+
+    public UserService(IUserRepository userRepository, UserServiceValidator validator) {
         _userRepository = userRepository;
+        _validator = validator;
     }
 
     public async Task<IEnumerable<UserModel>> GetAllUsersAsync()
@@ -20,15 +38,6 @@ public class UserService : IUserService {
         }
         return user;
     }
-
-    public async Task<IEnumerable<TaskModel>> GetTasksByUserIdAsync(int userID)
-    {
-        var tasks = await _userRepository.GetTasksByUserIdAsync(userID);
-        if (tasks == null) {
-            throw new KeyNotFoundException("Tasks not found");
-        }
-        return tasks;
-    }
     
     public async Task<UserModel> CreateUserAsync(UserModel user)
     {
@@ -37,7 +46,7 @@ public class UserService : IUserService {
 
     public async Task UpdateUserAsync(UserModel user)
     {
-        var existingUser = await _userRepository.GetUserByIdAsync(user.user_id);
+        var existingUser = await _userRepository.GetUserByIdAsync(user.UserId);
         if (existingUser == null) {
             throw new KeyNotFoundException("User not found");
         }

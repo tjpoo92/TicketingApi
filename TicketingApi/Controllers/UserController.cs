@@ -25,21 +25,15 @@ public class UserController : Controller {
         return Ok(user);
     }
 
-    [HttpGet("{userID}/tasks")]
-    public async Task<ActionResult<IEnumerable<Task>>> GetTasksForUser(int userID) {
-        var tasks = await _userService.GetTasksByUserIdAsync(userID);
-        return Ok(tasks);
-    }
-
     [HttpPost]
     public async Task<ActionResult<UserModel>> CreateUser(UserModel user) {
         var newUser = await _userService.CreateUserAsync(user);
-        return CreatedAtAction(nameof(GetUserByID), new {id=newUser.user_id}, newUser);
+        return CreatedAtAction(nameof(GetUserByID), new {id=newUser.UserId}, newUser);
     }
 
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateUser(int id, UserModel user) {
-        if (id != user.user_id) return BadRequest();
+        if (id != user.UserId) return BadRequest();
 
         await _userService.UpdateUserAsync(user);
         return NoContent();

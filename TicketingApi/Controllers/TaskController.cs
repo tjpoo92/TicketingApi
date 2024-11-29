@@ -25,15 +25,27 @@ public class TaskController : Controller {
         return Ok(task);
     }
 
+    [HttpGet("project/{projectID}/tasks")]
+    public async Task<ActionResult<IEnumerable<Task>>> GetTasksForProject(int projectID) {
+        var tasks = await _taskService.GetTasksByProjectIdAsync(projectID);
+        return Ok(tasks);
+    }
+
+    [HttpGet("user/{userID}/tasks")]
+    public async Task<ActionResult<IEnumerable<Task>>> GetTasksForUser(int userID) {
+        var tasks = await _taskService.GetTasksByUserIdAsync(userID);
+        return Ok(tasks);
+    }
+
     [HttpPost]
     public async Task<ActionResult<TaskModel>> CreateTask(TaskModel task) {
         var newTask = await _taskService.CreateTaskAsync(task);
-        return CreatedAtAction(nameof(GetTaskByID), new {id=newTask.task_id}, newTask);
+        return CreatedAtAction(nameof(GetTaskByID), new {id=newTask.TaskId}, newTask);
     }
 
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateTask(int id, TaskModel task) {
-        if (id != task.task_id) return BadRequest();
+        if (id != task.TaskId) return BadRequest();
 
         await _taskService.UpdateTaskAsync(task);
         return NoContent();
