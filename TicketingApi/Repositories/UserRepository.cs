@@ -16,7 +16,6 @@ public class UserRepository : IUserRepository
     public async Task<IEnumerable<UserModel>> GetAllUsersAsync()
     {
         string sql = "SELECT * FROM dbo.users";
-
 		return await db.LoadDataAsync<UserModel, dynamic>(sql, new { }, _connectionString);
     }
 
@@ -30,8 +29,8 @@ public class UserRepository : IUserRepository
 	public async Task CreateUserAsync(UserModel user)
     {
         string sql = "INSERT INTO dbo.users (user_name, user_email) VALUES (@UserName, @UserEmail)";
-
 		await db.SaveDataAsync(sql, new { user.UserName, user.UserEmail }, _connectionString);
+        return;
     }
 
 	public async Task UpdateUserAsync(UserModel user)
@@ -41,16 +40,19 @@ public class UserRepository : IUserRepository
         {
             sql = "UPDATE dbo.users SET user_name = @UserName WHERE user_id = @Id";
             await db.SaveDataAsync(sql, new { user.UserName, user.UserId }, _connectionString);
+            return;
         }
         else if (user.UserName == null)
         {
             sql = "UPDATE dbo.users SET user_email = @UserEmail WHERE user_id = @Id";
             await db.SaveDataAsync(sql, new { user.UserEmail, user.UserId }, _connectionString);
+			return;
 		}
         else
         {
 			sql = "UPDATE dbo.users SET user_name = @UserName, user_email = @UserEmail WHERE user_id = @Id";
             await db.SaveDataAsync(sql, new { user.UserName, user.UserEmail }, _connectionString);
+			return;
 		}
     }
 
@@ -58,5 +60,6 @@ public class UserRepository : IUserRepository
     {
         string sql = "DELETE FROM dbo.users WHERE user_id = @Id";
         await db.SaveDataAsync(sql, new { Id = id }, _connectionString);
+        return;
     }
 }

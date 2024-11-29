@@ -28,7 +28,7 @@ public class TaskService : ITaskService {
 
     public async Task UpdateTaskAsync(TaskModel task)
     {
-        var existingTask = await _taskRepository.GetTaskByIdAsync(task.task_id);
+        var existingTask = await _taskRepository.GetTaskByIdAsync(task.TaskId);
         if (existingTask == null) {
             throw new KeyNotFoundException("Task not found");
         }
