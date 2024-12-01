@@ -1,22 +1,24 @@
 ﻿using Dapper;
 using Microsoft.Data.SqlClient;
 using System.Data;
+using System.Linq;
 
 namespace TicketingApi
 {
-	public class DataAccess
+	public class SqlDataAccess
 	{
-		public List<T> LoadData<T, U>(string sqlStatement, U parameters, string connectionString)
+		public async Task<List<T>> LoadDataAsync<T, U>(string sqlStatement, U parameters, string connectionString)
 		{
 			using IDbConnection connection = new SqlConnection(connectionString);
-			List<T> rows = connection.Query<T>(sqlStatement, parameters).ToList();
-			return rows;
+			IEnumerable<T> rows = await connection.QueryAsync<T>(sqlStatement, parameters);
+			return rows.ToList();
 		}
 
-		public void SaveData<T>(string sqlStatement, T parameters, string connectionString)
+		public async Task SaveDataAsync<T>(string sqlStatement, T parameters, string connectionString)
 		{
 			using IDbConnection connection = new SqlConnection(connectionString);
-			connection.Execute(sqlStatement, parameters);
+			await connection.ExecuteAsync(sqlStatement, parameters);
+			
 		}
 	}
 }
