@@ -25,21 +25,15 @@ public class ProjectController : Controller {
         return Ok(project);
     }
 
-    [HttpGet("{projectID}/tasks")]
-    public async Task<ActionResult<IEnumerable<Task>>> GetTasksForProject(int projectID) {
-        var tasks = await _projectService.GetTasksByProjectIdAsync(projectID);
-        return Ok(tasks);
-    }
-
     [HttpPost]
     public async Task<ActionResult<ProjectModel>> CreateProject(ProjectModel project) {
         var newProject = await _projectService.CreateProjectAsync(project);
-        return CreatedAtAction(nameof(GetProjectByID), new {id=newProject.project_id}, newProject);
+        return CreatedAtAction(nameof(GetProjectByID), new {id=newProject.ProjectId}, newProject);
     }
 
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateProject(int id, ProjectModel project) {
-        if (id != project.project_id) return BadRequest();
+        if (id != project.ProjectId) return BadRequest();
 
         await _projectService.UpdateProjectAsync(project);
         return NoContent();

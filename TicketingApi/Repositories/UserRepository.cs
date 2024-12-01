@@ -18,7 +18,7 @@ public class UserRepository : IUserRepository
         string sql = "SELECT * FROM dbo.users";
 		return await db.LoadDataAsync<UserModel, dynamic>(sql, new { }, _connectionString);
     }
-
+    
     public async Task<UserModel> GetUserByIdAsync(int id)
     {
         string sql = "SELECT * FROM dbo.users WHERE user_id = @Id";

@@ -23,6 +23,16 @@ public class TaskRepository : ITaskRepository
         List<TaskModel> output = await db.LoadDataAsync<TaskModel, dynamic>(sql, new { Id = id }, _connectionString);
         return output.First();
     }
+
+    public Task<IEnumerable<TaskModel>> GetTasksByProjectIdAsync(int projectID)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<IEnumerable<TaskModel>> GetTasksByUserIdAsync(int userID)
+    {
+        throw new NotImplementedException();
+    }
     
     public async Task CreateTaskAsync(TaskModel task)
     {

@@ -11,10 +11,6 @@ public class ProjectRepository : IProjectRepository
     {
         throw new NotImplementedException();
     }
-    public Task<IEnumerable<TaskModel>> GetTasksByProjectIdAsync(int projectID)
-    {
-        throw new NotImplementedException();
-    }
     public Task<ProjectModel> CreateProjectAsync(ProjectModel project)
     {
         throw new NotImplementedException();
