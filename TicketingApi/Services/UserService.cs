@@ -1,26 +1,10 @@
 using TicketingApi.Models;
 
-public class UserServiceValidator {
-    // Validator for each method
-    // Valid integer checks
-    // Validate response objects aren't null
-    // Validate any required fields
-
-
-    private readonly IUserRepository _userRepository;
-
-    public UserServiceValidator(IUserRepository userRepository) {
-        _userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
-    }
-
-
-}
-
 public class UserService : IUserService {
     private readonly IUserRepository _userRepository;
-    private readonly UserServiceValidator _validator;
+    private readonly Validator _validator;
 
-    public UserService(IUserRepository userRepository, UserServiceValidator validator) {
+    public UserService(IUserRepository userRepository, Validator validator) {
         _userRepository = userRepository;
         _validator = validator;
     }
@@ -32,33 +16,34 @@ public class UserService : IUserService {
 
     public async Task<UserModel> GetUserByIdAsync(int id)
     {
+        _validator.ValidateId(id, "User");
+
         var user = await _userRepository.GetUserByIdAsync(id);
-        if (user == null) {
-            throw new KeyNotFoundException("User not found");
-        }
+        _validator.ValidateUserExists(user);
         return user;
     }
     
     public async Task<UserModel> CreateUserAsync(UserModel user)
     {
+        _validator.ValidateObjectNotNull(user, "User");
+
         return await _userRepository.CreateUserAsync(user);
     }
 
     public async Task UpdateUserAsync(UserModel user)
     {
-        var existingUser = await _userRepository.GetUserByIdAsync(user.UserId);
-        if (existingUser == null) {
-            throw new KeyNotFoundException("User not found");
-        }
+        _validator.ValidateObjectNotNull(user, "User");
+
         await _userRepository.UpdateUserAsync(user);
     }
 
     public async Task DeleteUserAsync(int id)
     {
+        _validator.ValidateId(id, "User");
+
         var existingUser = await _userRepository.GetUserByIdAsync(id);
-        if (existingUser == null) {
-            throw new KeyNotFoundException("User not found");
-        }
+        _validator.ValidateObjectNotNull(existingUser, "User");
+
         await _userRepository.DeleteUserAsync(id);
     }
 }
