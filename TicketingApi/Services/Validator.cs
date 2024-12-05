@@ -18,28 +18,4 @@ public class Validator
             throw new ArgumentNullException(objectName, $"{objectName} cannot be null.");
         }
     }
-
-    public void ValidateProjectExists(ProjectModel project)
-    {
-        if (project == null)
-        {
-            throw new KeyNotFoundException("Project not found.");
-        }
-    }
-
-    public void ValidateTaskExists(TaskModel task)
-    {
-        if (task == null)
-        {
-            throw new KeyNotFoundException("Task not found.");
-        }
-    }
-
-    public void ValidateUserExists(UserModel user)
-    {
-        if (user == null)
-        {
-            throw new KeyNotFoundException("User not found.");
-        }
-    }
 }

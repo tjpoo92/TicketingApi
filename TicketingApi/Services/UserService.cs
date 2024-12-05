@@ -19,7 +19,7 @@ public class UserService : IUserService {
         _validator.ValidateId(id, "User");
 
         var user = await _userRepository.GetUserByIdAsync(id);
-        _validator.ValidateUserExists(user);
+        _validator.ValidateObjectNotNull(user, "User");
         return user;
     }
     
