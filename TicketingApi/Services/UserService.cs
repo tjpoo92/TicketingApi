@@ -12,11 +12,10 @@ public class UserServiceValidator {
     public UserServiceValidator(IUserRepository userRepository) {
         _userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
     }
-
-
 }
 
-public class UserService : IUserService {
+public class UserService : IUserService
+{
     private readonly IUserRepository _userRepository;
     private readonly UserServiceValidator _validator;
 
@@ -39,9 +38,9 @@ public class UserService : IUserService {
         return user;
     }
     
-    public async Task<UserModel> CreateUserAsync(UserModel user)
+    public async Task CreateUserAsync(UserModel user)
     {
-        return await _userRepository.CreateUserAsync(user);
+        await _userRepository.CreateUserAsync(user);
     }
 
     public async Task UpdateUserAsync(UserModel user)
