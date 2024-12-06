@@ -1,19 +1,12 @@
 using TicketingApi.Models;
 
-public class TaskServiceValidator {
-    // Validator for each method
-    // Valid integer checks
-    // Validate response objects aren't null
-    // Validate any required fields
-
-
-}
-
 public class TaskService : ITaskService {
     private readonly ITaskRepository _taskRepository;
+    private readonly Validator _validator;
 
-    public TaskService(ITaskRepository taskRepository) {
+    public TaskService(ITaskRepository taskRepository, Validator validator) {
         _taskRepository = taskRepository;
+        _validator = validator;
     }
 
     public async Task<IEnumerable<TaskModel>> GetAllTasksAsync()
@@ -23,51 +16,52 @@ public class TaskService : ITaskService {
 
     public async Task<TaskModel> GetTaskByIdAsync(int id)
     {
+        _validator.ValidateId(id, "Task");
+
         var task = await _taskRepository.GetTaskByIdAsync(id);
-        if (task == null) {
-            throw new KeyNotFoundException("Task not found");
-        }
+        _validator.ValidateObjectNotNull(task, "Task");
+
         return task;
     }
 
     public async Task<IEnumerable<TaskModel>> GetTasksByProjectIdAsync(int projectID)
     {
-        var tasks = await _taskRepository.GetTasksByProjectIdAsync(projectID);
-        if (tasks == null) {
-            throw new KeyNotFoundException("Tasks not found.");
-        }
-        return tasks;
+        _validator.ValidateId(projectID, "Project");
+
+        return await _taskRepository.GetTasksByProjectIdAsync(projectID);
     }
 
         public async Task<IEnumerable<TaskModel>> GetTasksByUserIdAsync(int userID)
     {
-        var tasks = await _taskRepository.GetTasksByUserIdAsync(userID);
-        if (tasks == null) {
-            throw new KeyNotFoundException("Tasks not found");
-        }
-        return tasks;
+        _validator.ValidateId(userID, "User");
+
+        return await _taskRepository.GetTasksByUserIdAsync(userID);
     }
 
     public async Task<TaskModel> CreateTaskAsync(TaskModel task)
     {
+        _validator.ValidateObjectNotNull(task, "Task");
+
         return await _taskRepository.CreateTaskAsync(task);
     }
 
     public async Task UpdateTaskAsync(TaskModel task)
     {
+        _validator.ValidateObjectNotNull(task, "Task");
+
         var existingTask = await _taskRepository.GetTaskByIdAsync(task.TaskId);
-        if (existingTask == null) {
-            throw new KeyNotFoundException("Task not found");
-        }
+        _validator.ValidateObjectNotNull(existingTask, "Task");
+
         await _taskRepository.UpdateTaskAsync(task);
     }
 
     public async Task DeleteTaskAsync(int id)
     {
+        _validator.ValidateId(id, "Task");
+
         var existingTask = await _taskRepository.GetTaskByIdAsync(id);
-        if (existingTask == null) {
-            throw new KeyNotFoundException("Task not found");
-        }
+        _validator.ValidateObjectNotNull(existingTask, "Task");
+        
         await _taskRepository.DeleteTaskAsync(id);
     }
 }
