@@ -41,7 +41,7 @@ public class TaskService : ITaskService {
 
         public async Task<IEnumerable<TaskModel>> GetTasksByUserIdAsync(int userID)
     {
-        var tasks = await _taskRepository.GetTasksByUserIdAsync(userID);
+        var tasks = await _taskRepository.GetTasksByAssignedUserIdAsync(userID);
         if (tasks == null) {
             throw new KeyNotFoundException("Tasks not found");
         }

@@ -26,9 +26,9 @@ public class UserController : Controller {
     }
 
     [HttpPost]
-    public async Task<ActionResult<UserModel>> CreateUser(UserModel user) {
-        var newUser = await _userService.CreateUserAsync(user);
-        return CreatedAtAction(nameof(GetUserByID), new {id=newUser.UserId}, newUser);
+    public async Task CreateUser(UserModel user) {
+        await _userService.CreateUserAsync(user);
+        // return CreatedAtAction(nameof(GetUserByID), new {id=newUser.UserId}, newUser);
     }
 
     [HttpPut("{id}")]
