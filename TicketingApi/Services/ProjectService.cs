@@ -22,11 +22,11 @@ public class ProjectService : IProjectService {
         return project;
     }
 
-    public async Task<ProjectModel> CreateProjectAsync(ProjectModel project)
+    public async Task CreateProjectAsync(ProjectModel project)
     {
         _validator.ValidateObjectNotNull(project, "Project");
 
-        return await _projectRepository.CreateProjectAsync(project);
+        await _projectRepository.CreateProjectAsync(project);
     }
 
     public async Task UpdateProjectAsync(ProjectModel project)

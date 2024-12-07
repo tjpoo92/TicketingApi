@@ -38,9 +38,9 @@ public class TaskController : Controller {
     }
 
     [HttpPost]
-    public async Task<ActionResult<TaskModel>> CreateTask(TaskModel task) {
-        var newTask = await _taskService.CreateTaskAsync(task);
-        return CreatedAtAction(nameof(GetTaskByID), new {id=newTask.TaskId}, newTask);
+    public async Task CreateTask(TaskModel task) {
+        await _taskService.CreateTaskAsync(task);
+        //return CreatedAtAction(nameof(GetTaskByID), new {id=newTask.TaskId}, newTask);
     }
 
     [HttpPut("{id}")]

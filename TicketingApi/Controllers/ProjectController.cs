@@ -26,9 +26,9 @@ public class ProjectController : Controller {
     }
 
     [HttpPost]
-    public async Task<ActionResult<ProjectModel>> CreateProject(ProjectModel project) {
-        var newProject = await _projectService.CreateProjectAsync(project);
-        return CreatedAtAction(nameof(GetProjectByID), new {id=newProject.ProjectId}, newProject);
+    public async Task CreateProject(ProjectModel project) {
+        await _projectService.CreateProjectAsync(project);
+        // return CreatedAtAction(nameof(GetProjectByID), new {id=newProject.ProjectId}, newProject);
     }
 
     [HttpPut("{id}")]

@@ -38,11 +38,11 @@ public class TaskService : ITaskService {
         return await _taskRepository.GetTasksByUserIdAsync(userID);
     }
 
-    public async Task<TaskModel> CreateTaskAsync(TaskModel task)
+    public async Task CreateTaskAsync(TaskModel task)
     {
         _validator.ValidateObjectNotNull(task, "Task");
 
-        return await _taskRepository.CreateTaskAsync(task);
+        await _taskRepository.CreateTaskAsync(task);
     }
 
     public async Task UpdateTaskAsync(TaskModel task)

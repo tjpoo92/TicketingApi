@@ -24,14 +24,18 @@ public class TaskRepository : ITaskRepository
         return output.First();
     }
 
-    public Task<IEnumerable<TaskModel>> GetTasksByProjectIdAsync(int projectID)
+    public async Task<IEnumerable<TaskModel>> GetTasksByProjectIdAsync(int projectID)
     {
-        throw new NotImplementedException();
+        string sql = "SELECT * FROM dbo.tasks WHERE project_id = @Id";
+        List<TaskModel> output = await db.LoadDataAsync<TaskModel, dynamic>(sql, new { Id =  projectID }, _connectionString);
+        return output;
     }
 
-    public Task<IEnumerable<TaskModel>> GetTasksByUserIdAsync(int userID)
+    public async Task<IEnumerable<TaskModel>> GetTasksByAssignedUserIdAsync(int userID)
     {
-        throw new NotImplementedException();
+        string sql = "SELECT * FROM dbo.tasks WHERE assigned_to = @Id";
+        List<TaskModel> output = await db.LoadDataAsync<TaskModel, dynamic>(sql, new { Id =  userID }, _connectionString);
+        return output;
     }
     
     public async Task CreateTaskAsync(TaskModel task)

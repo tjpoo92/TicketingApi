@@ -1,6 +1,7 @@
 using TicketingApi.Models;
 
 public class UserService : IUserService {
+
     private readonly IUserRepository _userRepository;
     private readonly Validator _validator;
 
@@ -23,11 +24,11 @@ public class UserService : IUserService {
         return user;
     }
     
-    public async Task<UserModel> CreateUserAsync(UserModel user)
+    public async Task CreateUserAsync(UserModel user)
     {
         _validator.ValidateObjectNotNull(user, "User");
 
-        return await _userRepository.CreateUserAsync(user);
+        await _userRepository.CreateUserAsync(user);
     }
 
     public async Task UpdateUserAsync(UserModel user)
