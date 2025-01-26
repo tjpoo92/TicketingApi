@@ -4,11 +4,10 @@ using TicketingApi.Models;
 
 [ApiController]
 [Route("api/[controller]")]
-
 public class ProjectController : Controller {
-    private readonly IProjectService _projectService;
+    private readonly ProjectService _projectService;
 
-    public ProjectController(IProjectService projectService) {
+    public ProjectController(ProjectService projectService) {
         _projectService = projectService;
     }
 
@@ -26,8 +25,8 @@ public class ProjectController : Controller {
     }
 
     [HttpPost]
-    public async Task CreateProject(ProjectModel project) {
-        await _projectService.CreateProjectAsync(project);
+    public void CreateProject([FromBody] ProjectModel project) {
+        _projectService.CreateProjectAsync(project);
         // return CreatedAtAction(nameof(GetProjectByID), new {id=newProject.ProjectId}, newProject);
     }
 
