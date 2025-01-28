@@ -10,9 +10,9 @@ namespace DataAccessLibrary.Repository
 		private readonly string _connectionString;
 		private SqlDataAccess db = new SqlDataAccess();
 
-		public TaskRepository(string connectionString)
+		public TaskRepository(IConfiguration configuration)
 		{
-			_connectionString = connectionString;
+			_connectionString = configuration.GetConnectionString("Default");;
 		}
 
 		public async Task<IEnumerable<TaskEntity>> GetAllTasksAsync()
@@ -21,26 +21,26 @@ namespace DataAccessLibrary.Repository
 			return await db.LoadDataAsync<TaskEntity, dynamic>(sql, new { }, _connectionString);
 		}
 
-		public async Task<TaskEntity> GetTaskByIdAsync(int id)
-		{
-			string sql = "SELECT * FROM dbo.tasks WHERE task_id = @Id";
-			List<TaskEntity> output = await db.LoadDataAsync<TaskEntity, dynamic>(sql, new { Id = id }, _connectionString);
-			return output.First();
-		}
+		// public async Task<TaskEntity> GetTaskByIdAsync(int id)
+		// {
+		// 	string sql = "SELECT * FROM dbo.tasks WHERE task_id = @Id";
+		// 	List<TaskEntity> output = await db.LoadDataAsync<TaskEntity, dynamic>(sql, new { Id = id }, _connectionString);
+		// 	return output.First();
+		// }
 
-		public async Task<IEnumerable<TaskEntity>> GetTasksByProjectIdAsync(int projectID)
-		{
-			string sql = "SELECT * FROM dbo.tasks WHERE project_id = @Id";
-			List<TaskEntity> output = await db.LoadDataAsync<TaskEntity, dynamic>(sql, new { Id = projectID }, _connectionString);
-			return output;
-		}
+		// public async Task<IEnumerable<TaskEntity>> GetTasksByProjectIdAsync(int projectID)
+		// {
+		// 	string sql = "SELECT * FROM dbo.tasks WHERE project_id = @Id";
+		// 	List<TaskEntity> output = await db.LoadDataAsync<TaskEntity, dynamic>(sql, new { Id = projectID }, _connectionString);
+		// 	return output;
+		// }
 
-		public async Task<IEnumerable<TaskEntity>> GetTasksByAssignedUserIdAsync(int userID)
-		{
-			string sql = "SELECT * FROM dbo.tasks WHERE assigned_to = @Id";
-			List<TaskEntity> output = await db.LoadDataAsync<TaskEntity, dynamic>(sql, new { Id = userID }, _connectionString);
-			return output;
-		}
+		// public async Task<IEnumerable<TaskEntity>> GetTasksByAssignedUserIdAsync(int userID)
+		// {
+		// 	string sql = "SELECT * FROM dbo.tasks WHERE assigned_to = @Id";
+		// 	List<TaskEntity> output = await db.LoadDataAsync<TaskEntity, dynamic>(sql, new { Id = userID }, _connectionString);
+		// 	return output;
+		// }
 
 		public async Task CreateTaskAsync(TaskEntity task)
 		{
@@ -53,38 +53,38 @@ namespace DataAccessLibrary.Repository
 			return;
 		}
 
-		public async Task UpdateTaskAsync(TaskEntity task)
-		{
-			TaskEntity oldTask = await GetTaskByIdAsync(task.TaskId);
-			if (oldTask == null)
-			{
-				await CreateTaskAsync(task);
-				return;
-			}
-			else
-			{
-				TaskEntity updateTask = new TaskEntity
-				{
-					TaskId = task.TaskId,
-					ProjectId = task.ProjectId == null ? oldTask.ProjectId : task.ProjectId,
-					CreatedBy = task.CreatedBy == null ? oldTask.CreatedBy : task.CreatedBy,
-					AssignedTo = task.AssignedTo == null ? oldTask.AssignedTo : task.AssignedTo,
-					PredessorTask = task.PredessorTask == null ? oldTask.PredessorTask : task.PredessorTask,
-					DateDue = task.DateDue == null ? oldTask.DateDue : task.DateDue,
-					DateCompleted = task.DateCompleted == null ? oldTask.DateCompleted : task.DateCompleted,
-					TaskName = task.TaskName ?? oldTask.TaskName,
-					TaskDescription = task.TaskDescription ?? oldTask.TaskDescription,
-					Status = task.Status == null ? oldTask.Status : task.Status,
-					Priority = task.Priority == null ? oldTask.Priority : task.Priority
-				};
-				string sql = "UPDATE dbo.tasks SET project_id = @ProjectId, " +
-					"created_by = @CreatedBy, assigned_to = @AssignedTo, predessor_task = @PredessorTask, " +
-					"date_due = @DateDue, date_completed = @DateCompleted, task_name = @TaskName, " +
-					"task_description = @TaskDescription, status = @Status, priority = @Priority WHERE task_id = @TaskId";
-				await db.SaveDataAsync(sql, updateTask, _connectionString);
-				return;
-			}
-		}
+		// public async Task UpdateTaskAsync(TaskEntity task)
+		// {
+		// 	TaskEntity oldTask = await GetTaskByIdAsync(task.TaskId);
+		// 	if (oldTask == null)
+		// 	{
+		// 		await CreateTaskAsync(task);
+		// 		return;
+		// 	}
+		// 	else
+		// 	{
+		// 		TaskEntity updateTask = new TaskEntity
+		// 		{
+		// 			TaskId = task.TaskId,
+		// 			ProjectId = task.ProjectId == null ? oldTask.ProjectId : task.ProjectId,
+		// 			CreatedBy = task.CreatedBy == null ? oldTask.CreatedBy : task.CreatedBy,
+		// 			AssignedTo = task.AssignedTo == null ? oldTask.AssignedTo : task.AssignedTo,
+		// 			PredessorTask = task.PredessorTask == null ? oldTask.PredessorTask : task.PredessorTask,
+		// 			DateDue = task.DateDue == null ? oldTask.DateDue : task.DateDue,
+		// 			DateCompleted = task.DateCompleted == null ? oldTask.DateCompleted : task.DateCompleted,
+		// 			TaskName = task.TaskName ?? oldTask.TaskName,
+		// 			TaskDescription = task.TaskDescription ?? oldTask.TaskDescription,
+		// 			Status = task.Status == null ? oldTask.Status : task.Status,
+		// 			Priority = task.Priority == null ? oldTask.Priority : task.Priority
+		// 		};
+		// 		string sql = "UPDATE dbo.tasks SET project_id = @ProjectId, " +
+		// 			"created_by = @CreatedBy, assigned_to = @AssignedTo, predessor_task = @PredessorTask, " +
+		// 			"date_due = @DateDue, date_completed = @DateCompleted, task_name = @TaskName, " +
+		// 			"task_description = @TaskDescription, status = @Status, priority = @Priority WHERE task_id = @TaskId";
+		// 		await db.SaveDataAsync(sql, updateTask, _connectionString);
+		// 		return;
+		// 	}
+		// }
 
 		public async Task DeleteTaskAsync(int id)
 		{

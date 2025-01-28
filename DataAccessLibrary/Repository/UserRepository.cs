@@ -10,9 +10,9 @@ namespace DataAccessLibrary.Repository
 		private readonly string _connectionString;
 		private SqlDataAccess db = new SqlDataAccess();
 
-		public UserRepository(string connectionString)
+		public UserRepository(IConfiguration configuration)
 		{
-			_connectionString = connectionString;
+			_connectionString = configuration.GetConnectionString("Default");;
 		}
 
 		public async Task<IEnumerable<UserEntity>> GetAllUsersAsync()
@@ -21,12 +21,12 @@ namespace DataAccessLibrary.Repository
 			return await db.LoadDataAsync<UserEntity, dynamic>(sql, new { }, _connectionString);
 		}
 
-		public async Task<UserEntity> GetUserByIdAsync(int id)
-		{
-			string sql = "SELECT * FROM dbo.users WHERE user_id = @Id";
-			List<UserEntity> output = await db.LoadDataAsync<UserEntity, dynamic>(sql, new { Id = id }, _connectionString);
-			return output.First();
-		}
+		// public async Task<UserEntity> GetUserByIdAsync(int id)
+		// {
+		// 	string sql = "SELECT * FROM dbo.users WHERE user_id = @Id";
+		// 	List<UserEntity> output = await db.LoadDataAsync<UserEntity, dynamic>(sql, new { Id = id }, _connectionString);
+		// 	return output.First();
+		// }
 
 		public async Task CreateUserAsync(UserEntity user)
 		{

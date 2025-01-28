@@ -5,6 +5,11 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddSingleton<ProjectRepository>();
 builder.Services.AddScoped<ProjectService>();
+builder.Services.AddSingleton<TaskRepository>();
+builder.Services.AddScoped<TaskService>();
+builder.Services.AddSingleton<UserRepository>();
+builder.Services.AddScoped<UserService>();
+builder.Services.AddScoped<Validator>();
 
 // Add services to the container.
 

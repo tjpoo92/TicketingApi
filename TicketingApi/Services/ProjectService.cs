@@ -18,9 +18,7 @@ public class ProjectService : IProjectService {
 		List<ProjectModel> projects = [];
 		foreach (var project in projectsFromDatabase)
 		{
-			ProjectModel projectModel = new ProjectModel();
-			CopyToModel(project, projectModel);
-			projects.Add(projectModel);
+			projects.Add(CopyToModel(project));
 		}
 		return projects;
 	}
@@ -36,8 +34,7 @@ public class ProjectService : IProjectService {
 
     public void CreateProjectAsync(ProjectModel project)
     {
-		ProjectEntity projectEntity = new ProjectEntity();
-		_projectRepository.CreateProjectAsync(CopyToEntity(project, projectEntity));
+		_projectRepository.CreateProjectAsync(CopyToEntity(project));
 	}
 
     //public async Task UpdateProjectAsync(ProjectModel project)
@@ -60,33 +57,35 @@ public class ProjectService : IProjectService {
     //    await _projectRepository.DeleteProjectAsync(id);
     //}
 
-	private static ProjectModel CopyToModel(ProjectEntity from, ProjectModel to)
+	private static ProjectModel CopyToModel(ProjectEntity from)
 	{
-		to.ProjectId = from.ProjectId;
-		to.CreatedBy = from.CreatedBy;
-		to.ProjectName = from.ProjectName;
-		to.ProjectDescription = from.ProjectDescription;
-		to.DateDue = from.DateDue;
-		to.DateCompleted = from.DateCompleted;
-		to.Priority = (Priority)from.Priority;
-		to.Status = (Status)from.Status;
-		to.CreatedAt = from.CreatedAt;
-		to.UpdatedAt = from.UpdatedAt;
-		return to;
+		ProjectModel toModel = new ProjectModel();
+		toModel.ProjectId = from.ProjectId;
+		toModel.CreatedBy = from.CreatedBy;
+		toModel.ProjectName = from.ProjectName;
+		toModel.ProjectDescription = from.ProjectDescription;
+		toModel.DateDue = from.DateDue;
+		toModel.DateCompleted = from.DateCompleted;
+		toModel.Priority = (Priority)from.Priority;
+		toModel.Status = (Status)from.Status;
+		toModel.CreatedAt = from.CreatedAt;
+		toModel.UpdatedAt = from.UpdatedAt;
+		return toModel;
 	}
 
-	private static ProjectEntity CopyToEntity(ProjectModel from, ProjectEntity to)
+	private static ProjectEntity CopyToEntity(ProjectModel from)
 	{
-		to.ProjectId = from.ProjectId;
-		to.CreatedBy = from.CreatedBy;
-		to.ProjectName = from.ProjectName;
-		to.ProjectDescription = from.ProjectDescription;
-		to.DateDue = from.DateDue;
-		to.DateCompleted = from.DateCompleted;
-		to.Priority = (DataAccessLibrary.Entity.Priority)from.Priority;
-		to.Status = (DataAccessLibrary.Entity.Status)from.Status;
-		to.CreatedAt = from.CreatedAt;
-		to.UpdatedAt = from.UpdatedAt;
-		return to;
+		ProjectEntity toEntity = new ProjectEntity();
+		toEntity.ProjectId = from.ProjectId;
+		toEntity.CreatedBy = from.CreatedBy;
+		toEntity.ProjectName = from.ProjectName;
+		toEntity.ProjectDescription = from.ProjectDescription;
+		toEntity.DateDue = from.DateDue;
+		toEntity.DateCompleted = from.DateCompleted;
+		toEntity.Priority = (DataAccessLibrary.Entity.Priority)from.Priority;
+		toEntity.Status = (DataAccessLibrary.Entity.Status)from.Status;
+		toEntity.CreatedAt = from.CreatedAt;
+		toEntity.UpdatedAt = from.UpdatedAt;
+		return toEntity;
 	}
 }
