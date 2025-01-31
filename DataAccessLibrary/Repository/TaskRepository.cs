@@ -17,7 +17,7 @@ namespace DataAccessLibrary.Repository
 
 		public async Task<IEnumerable<TaskEntity>> GetAllTasksAsync()
 		{
-			string sql = "SELECT * FROM dbo.tasks";
+			string sql = "SELECT task_id AS taskId, project_id AS ProjectId, created_by AS createdBy, assigned_to AS assignedTo, predessor_task AS predessorTask, date_due AS dateDue, date_completed AS dateCompleted, task_name AS taskName, task_description AS taskDescription, status, priority, created_at AS createdAt, updated_at AS updatedAt FROM dbo.tasks";
 			return await db.LoadDataAsync<TaskEntity, dynamic>(sql, new { }, _connectionString);
 		}
 
