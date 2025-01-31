@@ -6,9 +6,9 @@ using TicketingApi.Models;
 [Route("api/[controller]")]
 
 public class TaskController : Controller {
-    private readonly ITaskService _taskService;
+    private readonly TaskService _taskService;
 
-    public TaskController(ITaskService taskService) {
+    public TaskController(TaskService taskService) {
         _taskService = taskService;
     }
 
