@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using TicketingApi.Models;
+using TicketingApi.Services;
 
 [ApiController]
 [Route("api/[controller]")]
@@ -26,7 +27,7 @@ public class ProjectController : Controller {
 
     [HttpPost]
     public void CreateProject([FromBody] ProjectModel project) {
-        _projectService.CreateProjectAsync(project);
+        _ = _projectService.CreateProjectAsync(project);
         // return CreatedAtAction(nameof(GetProjectByID), new {id=newProject.ProjectId}, newProject);
     }
 
