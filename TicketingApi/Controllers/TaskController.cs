@@ -18,12 +18,12 @@ public class TaskController : Controller {
         return Ok(tasks);
     }
 
-    // [HttpGet("{id}")]
-    // public async Task<ActionResult<TaskModel>> GetTaskByID(int id) {
-    //     var task = await _taskService.GetTaskByIdAsync(id);
-    //     if (task == null) return NotFound();
-    //     return Ok(task);
-    // }
+    [HttpGet("{id}")]
+    public async Task<ActionResult<TaskModel>> GetTaskByID(int id) {
+        var task = await _taskService.GetTaskByIdAsync(id);
+        if (task == null) return NotFound();
+        return Ok(task);
+    }
 
     // [HttpGet("project/{projectID}/tasks")]
     // public async Task<ActionResult<IEnumerable<Task>>> GetTasksForProject(int projectID) {

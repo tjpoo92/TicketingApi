@@ -25,15 +25,15 @@ public class TaskService : ITaskService {
         return tasks;
     }
 
-    // public async Task<TaskModel> GetTaskByIdAsync(int id)
-    // {
-    //     _validator.ValidateId(id, "Task");
-    //
-    //     var task = await _taskRepository.GetTaskByIdAsync(id);
-    //     _validator.ValidateObjectNotNull(task, "Task");
-    //
-    //     return CopyToModel(task);
-    // }
+    public async Task<TaskModel> GetTaskByIdAsync(int id)
+    {
+        _validator.ValidateId(id, "Task");
+    
+        var task = await _taskRepository.GetTaskByIdAsync(id);
+        _validator.ValidateObjectNotNull(task, "Task");
+    
+        return CopyToModel(task);
+    }
 
     // public async Task<IEnumerable<TaskModel>> GetTasksByProjectIdAsync(int projectID)
     // {
