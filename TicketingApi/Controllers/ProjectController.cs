@@ -30,29 +30,14 @@ public class ProjectController : Controller {
         await _projectService.CreateProjectAsync(project);
         // return CreatedAtAction(nameof(GetProjectByID), new {id=newProject.ProjectId}, newProject);
     }
-
-    [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateProject(int id, [FromBody]ProjectModel project) {
-        if (id != project.ProjectId) return BadRequest();
     
+    [HttpPatch("{id}")]
+    public async Task<IActionResult> PatchProject(int id, [FromBody] ProjectModel project) {
+        if (id != project.ProjectId) return BadRequest();
+        
         await _projectService.UpdateProjectAsync(project);
         return NoContent();
     }
-    
-    // [HttpPatch("{id}")]
-    // public async Task<IActionResult> PatchProject(int id, [FromBody] JsonPatchDocument<ProjectModel> patchDocument) {
-    //     if (patchDocument == null) return BadRequest();
-    //
-    //     var project = await _projectService.GetProjectByIdAsync(id);
-    //     if (project == null) return NotFound();
-    //
-    //     patchDocument.ApplyTo(project, ModelState);
-    //
-    //     if (!ModelState.IsValid) return BadRequest(ModelState);
-    //
-    //     await _projectService.UpdateProjectAsync(project);
-    //     return NoContent();
-    // }
     
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteProject(int id) {
