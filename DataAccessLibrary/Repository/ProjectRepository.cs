@@ -27,12 +27,15 @@ namespace DataAccessLibrary.Repository
 			return output.First();
 		}
 
-		public Task CreateProjectAsync(ProjectEntity project)
+		public async Task CreateProjectAsync(ProjectEntity project)
 		{
+			project.CreatedAt = DateTime.Now;
+			project.UpdatedAt = DateTime.Now;
+			
 			string sql = "INSERT INTO dbo.projects " +
 						 "(created_by, date_due, date_completed, project_name, project_description, status, priority, created_at, updated_at) VALUES " +
-						 "(@CreatedBy, @DateDue, @DateCompleted, @ProjectName, @ProjectDescription, @Status, @Priority, DATETIME(), DATETIME());";
-			return db.SaveDataAsync(sql,
+						 "(@CreatedBy, @DateDue, @DateCompleted, @ProjectName, @ProjectDescription, @Status, @Priority, @CreatedAt, @UpdatedAt)";
+			await db.SaveDataAsync(sql,
 				project,
 				_connectionString);
 		}

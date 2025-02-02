@@ -26,8 +26,8 @@ public class ProjectController : Controller {
     }
 
     [HttpPost]
-    public void CreateProject([FromBody] ProjectModel project) {
-        _ = _projectService.CreateProjectAsync(project);
+    public async Task CreateProject([FromBody] ProjectModel project) {
+        await _projectService.CreateProjectAsync(project);
         // return CreatedAtAction(nameof(GetProjectByID), new {id=newProject.ProjectId}, newProject);
     }
 
