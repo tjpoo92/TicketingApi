@@ -6,9 +6,9 @@ using TicketingApi.Models;
 [Route("api/[controller]")]
 
 public class UserController : Controller {
-    private readonly IUserService _userService;
+    private readonly UserService _userService;
 
-    public UserController (IUserService userService) {
+    public UserController (UserService userService) {
         _userService = userService;
     }
 

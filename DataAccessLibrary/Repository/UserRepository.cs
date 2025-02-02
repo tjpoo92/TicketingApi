@@ -17,7 +17,7 @@ namespace DataAccessLibrary.Repository
 
 		public async Task<IEnumerable<UserEntity>> GetAllUsersAsync()
 		{
-			string sql = "SELECT * FROM dbo.users";
+			string sql = "SELECT user_id as UserId, user_email as UserEmail, user_name as UserName, created_at as CreatedAt, updated_at as UpdatedAt FROM dbo.users";
 			return await db.LoadDataAsync<UserEntity, dynamic>(sql, new { }, _connectionString);
 		}
 
