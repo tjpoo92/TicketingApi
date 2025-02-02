@@ -31,33 +31,18 @@ public class UserController : Controller {
         // return CreatedAtAction(nameof(GetUserByID), new {id=newUser.UserId}, newUser);
     }
 
-    [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateUser(int id, UserModel user) {
+    [HttpPatch("{id}")]
+    public async Task<IActionResult> PatchUser(int id, [FromBody] UserModel user) {
         if (id != user.UserId) return BadRequest();
-
+    
         await _userService.UpdateUserAsync(user);
         return NoContent();
     }
-
-    // [HttpPatch("{id}")]
-    // public async Task<IActionResult> PatchUser(int id, [FromBody] JsonPatchDocument<UserModel> patchDocument) {
-    //     if (patchDocument == null) return BadRequest();
-    //
-    //     var user = await _userService.GetUserByIdAsync(id);
-    //     if (user == null) return NotFound();
-    //
-    //     patchDocument.ApplyTo(user, ModelState);
-    //
-    //     if (!ModelState.IsValid) return BadRequest(ModelState);
-    //
-    //     await _userService.UpdateUserAsync(user);
-    //     return NoContent();
-    // }
-    //
-    // [HttpDelete("{id}")]
-    // public async Task<IActionResult> DeleteUser(int id) {
-    //     await _userService.DeleteUserAsync(id);
-    //     return NoContent();
-    // }
+    
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteUser(int id) {
+        await _userService.DeleteUserAsync(id);
+        return NoContent();
+    }
 
 }

@@ -7,5 +7,5 @@ public interface IUserService
     Task<UserModel> GetUserByIdAsync(int id);
     Task CreateUserAsync(UserModel user);
     Task UpdateUserAsync(UserModel user);
-    // Task DeleteUserAsync(int id);
+    Task DeleteUserAsync(int id);
 }

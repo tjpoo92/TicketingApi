@@ -41,20 +41,20 @@ public class UserService : IUserService {
 
     public async Task UpdateUserAsync(UserModel user)
     {
-        _validator.ValidateObjectNotNull(user, "User");
+        // _validator.ValidateObjectNotNull(user, "User");
 
         await _userRepository.UpdateUserAsync(CopyToEntity(user));
     }
 
-    // public async Task DeleteUserAsync(int id)
-    // {
-    //     _validator.ValidateId(id, "User");
-    //
-    //     var existingUser = await _userRepository.GetUserByIdAsync(id);
-    //     _validator.ValidateObjectNotNull(existingUser, "User");
-    //
-    //     await _userRepository.DeleteUserAsync(id);
-    // }
+    public async Task DeleteUserAsync(int id)
+    {
+        _validator.ValidateId(id, "User");
+    
+        var existingUser = await _userRepository.GetUserByIdAsync(id);
+        _validator.ValidateObjectNotNull(existingUser, "User");
+    
+        await _userRepository.DeleteUserAsync(id);
+    }
     
     private static UserModel CopyToModel(UserEntity from)
     {

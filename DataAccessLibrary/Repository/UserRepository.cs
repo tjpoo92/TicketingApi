@@ -1,3 +1,4 @@
+using System.Reflection;
 using Dapper;
 using DataAccessLibrary.Entity;
 using DataAccessLibrary.Repository.Interfaces;
@@ -39,24 +40,22 @@ namespace DataAccessLibrary.Repository
 
 		public async Task UpdateUserAsync(UserEntity user)
 		{
-			string sql = string.Empty;
-			if (user.UserEmail == null)
+			UserEntity oldUser = await GetUserByIdAsync(user.UserId);
+			if (oldUser == null)
 			{
-				sql = "UPDATE dbo.users SET user_name = @UserName WHERE user_id = @Id";
-				await db.SaveDataAsync(sql, new { user.UserName, user.UserId }, _connectionString);
-				return;
-			}
-			else if (user.UserName == null)
-			{
-				sql = "UPDATE dbo.users SET user_email = @UserEmail WHERE user_id = @Id";
-				await db.SaveDataAsync(sql, new { user.UserEmail, user.UserId }, _connectionString);
-				return;
+				await CreateUserAsync(user);
 			}
 			else
 			{
-				sql = "UPDATE dbo.users SET user_name = @UserName, user_email = @UserEmail WHERE user_id = @Id";
-				await db.SaveDataAsync(sql, new { user.UserName, user.UserEmail }, _connectionString);
-				return;
+				UserEntity updateUser = new()
+				{
+					UserId = user.UserId,
+					UserEmail = user.UserEmail ?? oldUser.UserEmail,
+					UserName = user.UserName ?? oldUser.UserName,
+					UpdatedAt = DateTime.UtcNow
+				};
+				string sql = "UPDATE dbo.users SET user_email = @UserEmail, user_name = @UserName, updated_at = @UpdatedAt WHERE user_id = @UserId";
+				await db.SaveDataAsync(sql, updateUser, _connectionString);
 			}
 		}
 
