@@ -63,7 +63,6 @@ namespace DataAccessLibrary.Repository
 		{
 			string sql = "DELETE FROM dbo.users WHERE user_id = @Id";
 			await db.SaveDataAsync(sql, new { Id = id }, _connectionString);
-			return;
 		}
 	}
 }

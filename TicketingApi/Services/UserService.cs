@@ -48,10 +48,10 @@ public class UserService : IUserService {
 
     public async Task DeleteUserAsync(int id)
     {
-        _validator.ValidateId(id, "User");
+        // _validator.ValidateId(id, "User");
     
         var existingUser = await _userRepository.GetUserByIdAsync(id);
-        _validator.ValidateObjectNotNull(existingUser, "User");
+        // _validator.ValidateObjectNotNull(existingUser, "User");
     
         await _userRepository.DeleteUserAsync(id);
     }
