@@ -18,12 +18,12 @@ public class ProjectController : Controller {
         return Ok(projects);
     }
 
-    // [HttpGet("{id}")]
-    // public async Task<ActionResult<ProjectModel>> GetProjectByID(int id) {
-    //     var project = await _projectService.GetProjectByIdAsync(id);
-    //     if (project == null) return NotFound();
-    //     return Ok(project);
-    // }
+    [HttpGet("{id}")]
+    public async Task<ActionResult<ProjectModel>> GetProjectById(int id) {
+        var project = await _projectService.GetProjectByIdAsync(id);
+        if (project == null) return NotFound();
+        return Ok(project);
+    }
 
     [HttpPost]
     public void CreateProject([FromBody] ProjectModel project) {

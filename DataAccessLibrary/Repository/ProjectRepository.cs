@@ -19,14 +19,13 @@ namespace DataAccessLibrary.Repository
 			string sql = "SELECT project_id as ProjectId, created_by as CreatedBy, date_due as DateDue, date_completed as DateCompleted, project_name as ProjectName, project_description as ProjectDescription, status as Status, priority as Priority, created_at as CreatedAt, updated_at as UpdatedAt FROM dbo.projects";
 			return db.LoadDataAsync<ProjectEntity, dynamic>(sql, new { }, _connectionString);
 		}
-
-		// Untested with new format
-		//public async Task<ProjectEntity> GetProjectByIdAsync(int id)
-		//{
-		//	string sql = "SELECT * FROM dbo.projects WHERE project_id = @Id";
-		//	List<ProjectEntity> output = await db.LoadDataAsync<ProjectEntity, dynamic>(sql, new { Id = id }, _connectionString);
-		//	return output.First();
-		//}
+		
+		public async Task<ProjectEntity> GetProjectByIdAsync(int id)
+		{
+			string sql = "SELECT project_id as ProjectId, created_by as CreatedBy, date_due as DateDue, date_completed as DateCompleted, project_name as ProjectName, project_description as ProjectDescription, status as Status, priority as Priority, created_at as CreatedAt, updated_at as UpdatedAt FROM dbo.projects WHERE project_id = @Id";
+			IEnumerable<ProjectEntity> output = await db.LoadDataAsync<ProjectEntity, dynamic>(sql, new { Id = id }, _connectionString);
+			return output.First();
+		}
 
 		public Task CreateProjectAsync(ProjectEntity project)
 		{

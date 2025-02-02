@@ -22,14 +22,14 @@ public class ProjectService : IProjectService {
 		return projects;
 	}
 
-	//public async Task<ProjectModel> GetProjectByIdAsync(int id) {
-	//    _validator.ValidateId(id, "Project");
+	public async Task<ProjectModel> GetProjectByIdAsync(int id) {
+	    // _validator.ValidateId(id, "Project");
 
-	//    var project = await _projectRepository.GetProjectByIdAsync(id);
-	//    _validator.ValidateObjectNotNull(project, "Project");
-
-	//    return project;
-	//}
+	    var projectFromDatabase = await _projectRepository.GetProjectByIdAsync(id);
+	    // _validator.ValidateObjectNotNull(projectFromDatabase, "Project");
+	    
+	    return CopyToModel(projectFromDatabase);
+	}
 
 	public async Task CreateProjectAsync(ProjectModel project)
 	{
@@ -63,7 +63,7 @@ public class ProjectService : IProjectService {
 			ProjectId = from.ProjectId,
 			CreatedBy = from.CreatedBy,
 			ProjectName = from.ProjectName,
-			ProjectDescription = from.ProjectDescription,
+			ProjectDescription = from.ProjectDescription ?? "",
 			DateDue = from.DateDue,
 			DateCompleted = from.DateCompleted,
 			Priority = (Priority)from.Priority,
