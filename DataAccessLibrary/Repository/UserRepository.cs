@@ -30,9 +30,11 @@ namespace DataAccessLibrary.Repository
 
 		public async Task CreateUserAsync(UserEntity user)
 		{
-			string sql = "INSERT INTO dbo.users (user_name, user_email) VALUES (@UserName, @UserEmail)";
-			await db.SaveDataAsync(sql, new { user.UserName, user.UserEmail }, _connectionString);
-			return;
+			user.CreatedAt = DateTime.UtcNow;
+			user.UpdatedAt = DateTime.UtcNow;
+			
+			string sql = "INSERT INTO dbo.users (user_name, user_email, created_at, updated_at) VALUES (@UserName, @UserEmail, @CreatedAt, @UpdatedAt)";
+			await db.SaveDataAsync(sql, user, _connectionString);
 		}
 
 		public async Task UpdateUserAsync(UserEntity user)

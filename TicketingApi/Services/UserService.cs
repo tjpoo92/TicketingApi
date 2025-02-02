@@ -34,7 +34,7 @@ public class UserService : IUserService {
     
     public async Task CreateUserAsync(UserModel user)
     {
-        _validator.ValidateObjectNotNull(user, "User");
+        // _validator.ValidateObjectNotNull(user, "User");
 
         await _userRepository.CreateUserAsync(CopyToEntity(user));
     }
