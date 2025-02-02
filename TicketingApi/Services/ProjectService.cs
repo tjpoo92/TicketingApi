@@ -36,15 +36,15 @@ public class ProjectService : IProjectService {
 		await _projectRepository.CreateProjectAsync(CopyToEntity(project));
 	}
 
-	//public async Task UpdateProjectAsync(ProjectModel project)
-	//{
-	//    _validator.ValidateObjectNotNull(project, "Project");
+	public async Task UpdateProjectAsync(ProjectModel project)
+	{
+	    //_validator.ValidateObjectNotNull(project, "Project");
 
-	//    var existingProject = await _projectRepository.GetProjectByIdAsync(project.ProjectId);
-	//    _validator.ValidateObjectNotNull(existingProject, "Project");
+	    var existingProject = await _projectRepository.GetProjectByIdAsync(project.ProjectId);
+	    //_validator.ValidateObjectNotNull(existingProject, "Project");
         
-	//    await _projectRepository.UpdateProjectAsync(project);
-	//}
+	    await _projectRepository.UpdateProjectAsync(CopyToEntity(project));
+	}
 
 	public async Task DeleteProjectAsync(int id)
 	{

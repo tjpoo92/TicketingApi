@@ -31,14 +31,14 @@ public class ProjectController : Controller {
         // return CreatedAtAction(nameof(GetProjectByID), new {id=newProject.ProjectId}, newProject);
     }
 
-    // [HttpPut("{id}")]
-    // public async Task<IActionResult> UpdateProject(int id, ProjectModel project) {
-    //     if (id != project.ProjectId) return BadRequest();
-    //
-    //     await _projectService.UpdateProjectAsync(project);
-    //     return NoContent();
-    // }
-    //
+    [HttpPut("{id}")]
+    public async Task<IActionResult> UpdateProject(int id, [FromBody]ProjectModel project) {
+        if (id != project.ProjectId) return BadRequest();
+    
+        await _projectService.UpdateProjectAsync(project);
+        return NoContent();
+    }
+    
     // [HttpPatch("{id}")]
     // public async Task<IActionResult> PatchProject(int id, [FromBody] JsonPatchDocument<ProjectModel> patchDocument) {
     //     if (patchDocument == null) return BadRequest();

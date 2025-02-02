@@ -7,7 +7,7 @@ namespace DataAccessLibrary.Repository.Interfaces
 		Task<IEnumerable<ProjectEntity>> GetAllProjectsAsync();
 		Task<ProjectEntity> GetProjectByIdAsync(int id);
 		Task CreateProjectAsync(ProjectEntity project);
-		//Task UpdateProjectAsync(ProjectEntity project);
+		Task UpdateProjectAsync(ProjectEntity project);
 		Task DeleteProjectAsync(int id);
 	}
 }

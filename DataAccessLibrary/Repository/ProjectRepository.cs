@@ -39,35 +39,34 @@ namespace DataAccessLibrary.Repository
 				project,
 				_connectionString);
 		}
-
-		// Untested with new format
-		//public async Task UpdateProjectAsync(ProjectEntity project)
-		//{
-		//	ProjectEntity oldProject = await GetProjectByIdAsync(project.ProjectId);
-		//	if (oldProject == null)
-		//	{
-		//		await CreateProjectAsync(project);
-		//		return;
-		//	}
-		//	else
-		//	{
-		//		ProjectEntity updateProject = new ProjectEntity
-		//		{
-		//			ProjectId = project.ProjectId,
-		//			CreatedBy = project.CreatedBy == null ? oldProject.CreatedBy : project.CreatedBy,
-		//			DateDue = project.DateDue == null ? oldProject.DateDue : project.DateDue,
-		//			ProjectName = project.ProjectName ?? oldProject.ProjectName,
-		//			ProjectDescription = project.ProjectDescription ?? oldProject.ProjectDescription,
-		//			Status = project.Status == null ? oldProject.Status : project.Status,
-		//			Priority = project.Priority == null ? oldProject.Priority : project.Priority
-		//		};
-		//		string sql = "UPDATE dbo.projects SET created_by = @CreatedBy, " +
-		//			"date_due = @DateDue, date_completed = @DateCompleted, project_name = @ProjectName, " +
-		//			"project_description = @ProjectDescription, status = @Status, priority = @Priority WHERE project_id = @ProjectId";
-		//		await db.SaveDataAsync(sql, updateProject, _connectionString);
-		//		return;
-		//	}
-		//}
+		
+		public async Task UpdateProjectAsync(ProjectEntity project)
+		{
+			ProjectEntity oldProject = await GetProjectByIdAsync(project.ProjectId);
+			if (oldProject == null)
+			{
+				await CreateProjectAsync(project);
+			}
+			else
+			{
+				ProjectEntity updateProject = new()
+				{
+					ProjectId = project.ProjectId,
+					CreatedBy = project.CreatedBy == null ? oldProject.CreatedBy : project.CreatedBy,
+					DateDue = project.DateDue ?? oldProject.DateDue,
+					DateCompleted = project.DateCompleted ?? oldProject.DateCompleted,
+					ProjectName = project.ProjectName ?? oldProject.ProjectName,
+					ProjectDescription = project.ProjectDescription ?? oldProject.ProjectDescription,
+					Status = project.Status == null ? oldProject.Status : project.Status,
+					Priority = project.Priority == null ? oldProject.Priority : project.Priority,
+					UpdatedAt = DateTime.Now
+				};
+				string sql = "UPDATE dbo.projects SET created_by = @CreatedBy, " +
+					"date_due = @DateDue, date_completed = @DateCompleted, project_name = @ProjectName, " +
+					"project_description = @ProjectDescription, status = @Status, priority = @Priority, updated_at = @UpdatedAt WHERE project_id = @ProjectId";
+				await db.SaveDataAsync(sql, updateProject, _connectionString);
+			}
+		}
 		
 		public async Task DeleteProjectAsync(int id)
 		{
