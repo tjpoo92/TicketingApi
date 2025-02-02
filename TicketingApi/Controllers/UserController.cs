@@ -18,12 +18,12 @@ public class UserController : Controller {
         return Ok(users);
     }
 
-    // [HttpGet("{id}")]
-    // public async Task<ActionResult<UserModel>> GetUserByID(int id) {
-    //     var user = await _userService.GetUserByIdAsync(id);
-    //     if (user == null) return NotFound();
-    //     return Ok(user);
-    // }
+    [HttpGet("{id}")]
+    public async Task<ActionResult<UserModel>> GetUserById(int id) {
+        var user = await _userService.GetUserByIdAsync(id);
+        if (user == null) return NotFound();
+        return Ok(user);
+    }
 
     [HttpPost]
     public async Task CreateUser(UserModel user) {

@@ -19,21 +19,18 @@ public class UserService : IUserService {
     {
         var usersFromDatabase= await _userRepository.GetAllUsersAsync();
         List<UserModel> users = [];
-        foreach (var user in usersFromDatabase)
-        {
-            users.Add(CopyToModel(user));
-        }
+        users.AddRange(usersFromDatabase.Select(user => CopyToModel(user)));
         return users;
     }
 
-    // public async Task<UserModel> GetUserByIdAsync(int id)
-    // {
-    //     _validator.ValidateId(id, "User");
-    //
-    //     var user = await _userRepository.GetUserByIdAsync(id);
-    //     _validator.ValidateObjectNotNull(user, "User");
-    //     return user;
-    // }
+    public async Task<UserModel> GetUserByIdAsync(int id)
+    {
+        // _validator.ValidateId(id, "User");
+    
+        var userFromDatabase = await _userRepository.GetUserByIdAsync(id);
+        // _validator.ValidateObjectNotNull(user, "User");
+        return CopyToModel(userFromDatabase);
+    }
     
     public async Task CreateUserAsync(UserModel user)
     {

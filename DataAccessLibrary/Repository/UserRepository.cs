@@ -21,12 +21,12 @@ namespace DataAccessLibrary.Repository
 			return await db.LoadDataAsync<UserEntity, dynamic>(sql, new { }, _connectionString);
 		}
 
-		// public async Task<UserEntity> GetUserByIdAsync(int id)
-		// {
-		// 	string sql = "SELECT * FROM dbo.users WHERE user_id = @Id";
-		// 	List<UserEntity> output = await db.LoadDataAsync<UserEntity, dynamic>(sql, new { Id = id }, _connectionString);
-		// 	return output.First();
-		// }
+		public async Task<UserEntity> GetUserByIdAsync(int id)
+		{
+			string sql = "SELECT user_id as UserId, user_email as UserEmail, user_name as UserName, created_at as CreatedAt, updated_at as UpdatedAt FROM dbo.users WHERE user_id = @Id";
+			IEnumerable<UserEntity> output = await db.LoadDataAsync<UserEntity, dynamic>(sql, new { Id = id }, _connectionString);
+			return output.First();
+		}
 
 		public async Task CreateUserAsync(UserEntity user)
 		{
