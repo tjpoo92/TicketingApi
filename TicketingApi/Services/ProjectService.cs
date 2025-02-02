@@ -46,15 +46,16 @@ public class ProjectService : IProjectService {
 	//    await _projectRepository.UpdateProjectAsync(project);
 	//}
 
-	//public async Task DeleteProjectAsync(int id)
-	//{
-	//    _validator.ValidateId(id, "Project");
-
-	//    var existingProject = await _projectRepository.GetProjectByIdAsync(id);
-	//    _validator.ValidateObjectNotNull(existingProject, "Project");
-        
-	//    await _projectRepository.DeleteProjectAsync(id);
-	//}
+	public async Task DeleteProjectAsync(int id)
+	{
+	    // _validator.ValidateId(id, "Project");
+	    // Validation and cascade delete need to be completed
+	    var existingProject = await _projectRepository.GetProjectByIdAsync(id);
+	    
+		await _projectRepository.DeleteProjectAsync(id);
+	    
+	    // _validator.ValidateObjectNotNull(existingProject, "Project");
+	}
 
 	private static ProjectModel CopyToModel(ProjectEntity from)
 	{

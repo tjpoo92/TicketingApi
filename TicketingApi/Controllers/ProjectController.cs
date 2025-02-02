@@ -53,10 +53,10 @@ public class ProjectController : Controller {
     //     await _projectService.UpdateProjectAsync(project);
     //     return NoContent();
     // }
-    //
-    // [HttpDelete("{id}")]
-    // public async Task<IActionResult> DeleteProject(int id) {
-    //     await _projectService.DeleteProjectAsync(id);
-    //     return NoContent();
-    // }
+    
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteProject(int id) {
+        await _projectService.DeleteProjectAsync(id);
+        return NoContent();
+    }
 }

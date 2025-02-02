@@ -65,12 +65,11 @@ namespace DataAccessLibrary.Repository
 		//		return;
 		//	}
 		//}
-
-		// Untested with new format
-		//public async Task DeleteProjectAsync(int id)
-		//{
-		//	string sql = "DELETE FROM dbo.projects WHERE project_id = @Id";
-		//	await db.SaveDataAsync(sql, new { Id = id }, _connectionString);
-		//}
+		
+		public async Task DeleteProjectAsync(int id)
+		{
+			string sql = "DELETE FROM dbo.projects WHERE project_id = @Id";
+			await db.SaveDataAsync(sql, new { Id = id }, _connectionString);
+		}
 	}
 }

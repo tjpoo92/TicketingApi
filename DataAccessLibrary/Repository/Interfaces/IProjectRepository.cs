@@ -8,6 +8,6 @@ namespace DataAccessLibrary.Repository.Interfaces
 		Task<ProjectEntity> GetProjectByIdAsync(int id);
 		Task CreateProjectAsync(ProjectEntity project);
 		//Task UpdateProjectAsync(ProjectEntity project);
-		//Task DeleteProjectAsync(int id);
+		Task DeleteProjectAsync(int id);
 	}
 }

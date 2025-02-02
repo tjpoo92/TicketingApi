@@ -6,5 +6,5 @@ public interface IProjectService
     Task<ProjectModel> GetProjectByIdAsync(int id);
     Task CreateProjectAsync(ProjectModel project);
     //Task UpdateProjectAsync(ProjectModel project);
-    //Task DeleteProjectAsync(int id);
+    Task DeleteProjectAsync(int id);
 }
