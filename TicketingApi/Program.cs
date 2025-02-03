@@ -1,5 +1,6 @@
 using DataAccessLibrary.Repository;
 using System.Text.Json.Serialization;
+using TicketingApi.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
