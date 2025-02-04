@@ -38,7 +38,7 @@ public class TaskController : Controller {
     }
 
     [HttpPost]
-    public async Task CreateTask(TaskModel task) {
+    public async Task CreateTask([FromBody] TaskModel task) {
         await _taskService.CreateTaskAsync(task);
         //return CreatedAtAction(nameof(GetTaskByID), new {id=newTask.TaskId}, newTask);
     }
