@@ -1,8 +1,6 @@
 using DataAccessLibrary.Entity;
 using DataAccessLibrary.Repository;
 using TicketingApi.Models;
-using Priority = TicketingApi.Models.Priority;
-using Status = TicketingApi.Models.Status;
 
 namespace TicketingApi.Services;
 
@@ -67,8 +65,8 @@ public class ProjectService : IProjectService {
 			ProjectDescription = from.ProjectDescription ?? "",
 			DateDue = from.DateDue,
 			DateCompleted = from.DateCompleted,
-			Priority = (Priority)from.Priority,
-			Status = (Status)from.Status,
+			Priority = from.Priority,
+			Status = from.Status,
 			CreatedAt = from.CreatedAt,
 			UpdatedAt = from.UpdatedAt
 		};
@@ -85,8 +83,8 @@ public class ProjectService : IProjectService {
 			ProjectDescription = from.ProjectDescription,
 			DateDue = from.DateDue,
 			DateCompleted = from.DateCompleted,
-			Priority = (DataAccessLibrary.Entity.Priority)from.Priority,
-			Status = (DataAccessLibrary.Entity.Status)from.Status,
+			Priority = from.Priority,
+			Status = from.Status,
 			CreatedAt = from.CreatedAt,
 			UpdatedAt = from.UpdatedAt
 		};

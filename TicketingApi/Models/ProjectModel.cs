@@ -1,7 +1,11 @@
-﻿namespace TicketingApi.Models;
+﻿using System.Text.Json.Serialization;
+using DataAccessLibrary.Entity;
+
+namespace TicketingApi.Models;
 
 public class ProjectModel
 {
+	[JsonIgnore]
 	public int ProjectId { get; set; } // PK
     public int CreatedBy { get; set; } // FK users.UserId
     public DateTime? DateDue { get; set; }

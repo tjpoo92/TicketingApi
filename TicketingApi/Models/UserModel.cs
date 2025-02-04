@@ -1,7 +1,10 @@
-﻿namespace TicketingApi.Models;
+﻿using System.Text.Json.Serialization;
+
+namespace TicketingApi.Models;
 
 public class UserModel
 {
+	[JsonIgnore]
 	public int UserId { get; set; }
 	public string? UserName { get; set; }
 	public string? UserEmail { get; set; }
