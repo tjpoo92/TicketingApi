@@ -6,9 +6,9 @@ using TicketingApi.Models;
 [Route("api/[controller]")]
 
 public class TaskController : Controller {
-    private readonly ITaskService _taskService;
+    private readonly TaskService _taskService;
 
-    public TaskController(ITaskService taskService) {
+    public TaskController(TaskService taskService) {
         _taskService = taskService;
     }
 
@@ -18,27 +18,27 @@ public class TaskController : Controller {
         return Ok(tasks);
     }
 
-    // [HttpGet("{id}")]
-    // public async Task<ActionResult<TaskModel>> GetTaskByID(int id) {
-    //     var task = await _taskService.GetTaskByIdAsync(id);
-    //     if (task == null) return NotFound();
-    //     return Ok(task);
-    // }
+    [HttpGet("{id}")]
+    public async Task<ActionResult<TaskModel>> GetTaskByID(int id) {
+        var task = await _taskService.GetTaskByIdAsync(id);
+        if (task == null) return NotFound();
+        return Ok(task);
+    }
 
-    // [HttpGet("project/{projectID}/tasks")]
-    // public async Task<ActionResult<IEnumerable<Task>>> GetTasksForProject(int projectID) {
-    //     var tasks = await _taskService.GetTasksByProjectIdAsync(projectID);
-    //     return Ok(tasks);
-    // }
-    //
-    // [HttpGet("user/{userID}/tasks")]
-    // public async Task<ActionResult<IEnumerable<Task>>> GetTasksForUser(int userID) {
-    //     var tasks = await _taskService.GetTasksByUserIdAsync(userID);
-    //     return Ok(tasks);
-    // }
+    [HttpGet("project/{projectID}/tasks")]
+    public async Task<ActionResult<IEnumerable<Task>>> GetTasksForProject(int projectID) {
+        var tasks = await _taskService.GetTasksByProjectIdAsync(projectID);
+        return Ok(tasks);
+    }
+    
+    [HttpGet("user/{userID}/tasks")]
+    public async Task<ActionResult<IEnumerable<Task>>> GetTasksForUser(int userID) {
+        var tasks = await _taskService.GetTasksByUserIdAsync(userID);
+        return Ok(tasks);
+    }
 
     [HttpPost]
-    public async Task CreateTask(TaskModel task) {
+    public async Task CreateTask([FromBody] TaskModel task) {
         await _taskService.CreateTaskAsync(task);
         //return CreatedAtAction(nameof(GetTaskByID), new {id=newTask.TaskId}, newTask);
     }
@@ -51,25 +51,18 @@ public class TaskController : Controller {
     //     return NoContent();
     // }
     //
-    // [HttpPatch("{id}")]
-    // public async Task<IActionResult> PatchTask(int id, [FromBody] JsonPatchDocument<TaskModel> patchDocument) {
-    //     if (patchDocument == null) return BadRequest();
-    //
-    //     var task = await _taskService.GetTaskByIdAsync(id);
-    //     if (task == null) return NotFound();
-    //
-    //     patchDocument.ApplyTo(task, ModelState);
-    //
-    //     if (!ModelState.IsValid) return BadRequest(ModelState);
-    //
-    //     await _taskService.UpdateTaskAsync(task);
-    //     return NoContent();
-    // }
-    //
-    // [HttpDelete("{id}")]
-    // public async Task<IActionResult> DeleteTask(int id) {
-    //     await _taskService.DeleteTaskAsync(id);
-    //     return NoContent();
-    // }
+    [HttpPatch("{id}")]
+    public async Task<IActionResult> PatchTask(int id, [FromBody] TaskModel task) {
+        //if (id != task.TaskId) return BadRequest();
+    
+        await _taskService.UpdateTaskAsync(task);
+        return NoContent();
+    }
+    
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteTask(int id) {
+        await _taskService.DeleteTaskAsync(id);
+        return NoContent();
+    }
 
 }
