@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TicketingApi", "TicketingAp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccessLibrary", "DataAccessLibrary\DataAccessLibrary.csproj", "{57480509-261C-4978-B5F8-E866956663A0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TicketingApi.Tests", "TicketingApi.Tests\TicketingApi.Tests.csproj", "{F4F83E3C-8C8B-4E76-A7C9-1B5F0E3F9D8C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,6 +26,12 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F4F83E3C-8C8B-4E76-A7C9-1B5F0E3F9D8C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F4F83E3C-8C8B-4E76-A7C9-1B5F0E3F9D8C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F4F83E3C-8C8B-4E76-A7C9-1B5F0E3F9D8C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F4F83E3C-8C8B-4E76-A7C9-1B5F0E3F9D8C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {70ADE94F-D581-4111-9AF2-C15B6F87E595}
