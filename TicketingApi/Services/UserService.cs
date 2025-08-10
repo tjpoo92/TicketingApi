@@ -9,17 +9,19 @@ public class UserService : IUserService {
 
     private readonly UserRepository _userRepository;
     private readonly Validator _validator;
+    private readonly AutoMapper.IMapper _mapper;
 
-    public UserService(UserRepository userRepository, Validator validator) {
+    public UserService(UserRepository userRepository, Validator validator, AutoMapper.IMapper mapper) {
         _userRepository = userRepository;
         _validator = validator;
+        _mapper = mapper;
     }
 
     public async Task<IEnumerable<UserModel>> GetAllUsersAsync()
     {
         var usersFromDatabase= await _userRepository.GetAllUsersAsync();
         List<UserModel> users = [];
-        users.AddRange(usersFromDatabase.Select(user => CopyToModel(user)));
+        users.AddRange(usersFromDatabase.Select(user => _mapper.Map<UserModel>(user)));
         return users;
     }
 
@@ -29,21 +31,21 @@ public class UserService : IUserService {
     
         var userFromDatabase = await _userRepository.GetUserByIdAsync(id);
         // _validator.ValidateObjectNotNull(user, "User");
-        return CopyToModel(userFromDatabase);
+        return _mapper.Map<UserModel>(userFromDatabase);
     }
     
     public async Task CreateUserAsync(UserModel user)
     {
         // _validator.ValidateObjectNotNull(user, "User");
 
-        await _userRepository.CreateUserAsync(CopyToEntity(user));
+        await _userRepository.CreateUserAsync(_mapper.Map<UserEntity>(user));
     }
 
     public async Task UpdateUserAsync(UserModel user)
     {
         // _validator.ValidateObjectNotNull(user, "User");
 
-        await _userRepository.UpdateUserAsync(CopyToEntity(user));
+        await _userRepository.UpdateUserAsync(_mapper.Map<UserEntity>(user));
     }
 
     public async Task DeleteUserAsync(int id)
@@ -56,29 +58,6 @@ public class UserService : IUserService {
         await _userRepository.DeleteUserAsync(id);
     }
     
-    private static UserModel CopyToModel(UserEntity from)
-    {
-        UserModel toModel = new UserModel
-        {
-            UserId = from.UserId,
-            UserName = from.UserName,
-            UserEmail = from.UserEmail,
-            CreatedAt = from.CreatedAt,
-            UpdatedAt = from.UpdatedAt
-        };
-        return toModel;
-    }
-
-    private static UserEntity CopyToEntity(UserModel from)
-    {
-        UserEntity toEntity = new UserEntity
-        {
-            UserId = from.UserId,
-            UserName = from.UserName,
-            UserEmail = from.UserEmail,
-            CreatedAt = from.CreatedAt,
-            UpdatedAt = from.UpdatedAt
-        };
-        return toEntity;
-    }
+    private UserModel CopyToModel(UserEntity from) => _mapper.Map<UserModel>(from);
+    private UserEntity CopyToEntity(UserModel from) => _mapper.Map<UserEntity>(from);
 }

@@ -8,10 +8,12 @@ using Status = TicketingApi.Models.Status;
 public class TaskService : ITaskService {
     private readonly TaskRepository _taskRepository;
     private readonly Validator _validator;
+    private readonly AutoMapper.IMapper _mapper;
 
-    public TaskService(TaskRepository taskRepository, Validator validator) {
+    public TaskService(TaskRepository taskRepository, Validator validator, AutoMapper.IMapper mapper) {
         _taskRepository = taskRepository;
         _validator = validator;
+        _mapper = mapper;
     }
 
     public async Task<IEnumerable<TaskModel>> GetAllTasksAsync()
@@ -20,7 +22,7 @@ public class TaskService : ITaskService {
         List<TaskModel> tasks = [];
         foreach (var task in tasksFromDatabase)
         {
-            tasks.Add(CopyToModel(task));
+            tasks.Add(_mapper.Map<TaskModel>(task));
         }
         return tasks;
     }
@@ -32,7 +34,7 @@ public class TaskService : ITaskService {
         var task = await _taskRepository.GetTaskByIdAsync(id);
         _validator.ValidateObjectNotNull(task, "Task");
     
-        return CopyToModel(task);
+        return _mapper.Map<TaskModel>(task);
     }
 
     public async Task<IEnumerable<TaskModel>> GetTasksByProjectIdAsync(int projectID)
@@ -42,7 +44,7 @@ public class TaskService : ITaskService {
         var tasksFromDatabase = await _taskRepository.GetTasksByProjectIdAsync(projectID);
         List<TaskModel> tasks = [];
         foreach (var task in tasksFromDatabase) {
-            tasks.Add(CopyToModel(task));
+            tasks.Add(_mapper.Map<TaskModel>(task));
         }
         return tasks;
     }
@@ -54,7 +56,7 @@ public class TaskService : ITaskService {
         var tasksFromDatabase = await _taskRepository.GetTasksByAssignedUserIdAsync(userID);
         List<TaskModel> tasks = [];
         foreach (var task in tasksFromDatabase) {
-            tasks.Add(CopyToModel(task));
+            tasks.Add(_mapper.Map<TaskModel>(task));
         }
         return tasks;
     }
@@ -63,7 +65,7 @@ public class TaskService : ITaskService {
     {
         //_validator.ValidateObjectNotNull(task, "Task");
 
-        await _taskRepository.CreateTaskAsync(CopyToEntity(task));
+        await _taskRepository.CreateTaskAsync(_mapper.Map<TaskEntity>(task));
     }
 
     public async Task UpdateTaskAsync(TaskModel task)
@@ -73,7 +75,7 @@ public class TaskService : ITaskService {
         var existingTask = await _taskRepository.GetTaskByIdAsync(task.TaskId);
         //_validator.ValidateObjectNotNull(existingTask, "Task");
     
-        await _taskRepository.UpdateTaskAsync(CopyToEntity(task));
+        await _taskRepository.UpdateTaskAsync(_mapper.Map<TaskEntity>(task));
     }
     
     public async Task DeleteTaskAsync(int id)
@@ -86,45 +88,6 @@ public class TaskService : ITaskService {
         await _taskRepository.DeleteTaskAsync(id);
     }
     
-    private static TaskModel CopyToModel(TaskEntity from)
-    {
-        TaskModel toModel = new TaskModel
-        {
-            ProjectId = from.ProjectId,
-            TaskId = from.TaskId,
-            CreatedBy = from.CreatedBy,
-            AssignedTo = from.AssignedTo,
-            PredessorTask = from.PredessorTask,
-            TaskName = from.TaskName,
-            TaskDescription = from.TaskDescription,
-            DateDue = from.DateDue,
-            DateCompleted = from.DateCompleted,
-            Priority = (Priority)from.Priority,
-            Status = (Status)from.Status,
-            CreatedAt = from.CreatedAt,
-            UpdatedAt = from.UpdatedAt
-        };
-        return toModel;
-    }
-    
-    private static TaskEntity CopyToEntity(TaskModel from)
-    {
-        TaskEntity toEntity = new TaskEntity
-        {
-            ProjectId = from.ProjectId,
-            TaskId = from.TaskId,
-            CreatedBy = from.CreatedBy,
-            AssignedTo = from.AssignedTo,
-            PredessorTask = from.PredessorTask,
-            TaskName = from.TaskName,
-            TaskDescription = from.TaskDescription,
-            DateDue = from.DateDue,
-            DateCompleted = from.DateCompleted,
-            Priority = (DataAccessLibrary.Entity.Priority)from.Priority,
-            Status = (DataAccessLibrary.Entity.Status)from.Status,
-            CreatedAt = from.CreatedAt,
-            UpdatedAt = from.UpdatedAt
-        };
-        return toEntity;
-    }
+    private TaskModel CopyToModel(TaskEntity from) => _mapper.Map<TaskModel>(from);
+    private TaskEntity CopyToEntity(TaskModel from) => _mapper.Map<TaskEntity>(from);
 }

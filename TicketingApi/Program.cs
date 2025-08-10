@@ -1,6 +1,7 @@
 using DataAccessLibrary.Repository;
 using System.Text.Json.Serialization;
 using TicketingApi.Services;
+using TicketingApi;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +12,7 @@ builder.Services.AddScoped<TaskService>();
 builder.Services.AddSingleton<UserRepository>();
 builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<Validator>();
+builder.Services.AddAutoMapper(typeof(MappingProfile));
 
 // Add services to the container.
 
