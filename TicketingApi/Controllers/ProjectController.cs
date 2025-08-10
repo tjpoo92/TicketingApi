@@ -5,6 +5,7 @@ using TicketingApi.Services.Interfaces;
 
 [ApiController]
 [Route("api/[controller]")]
+[Produces("application/json")]
 public class ProjectController : Controller {
     private readonly IProjectService _projectService;
 

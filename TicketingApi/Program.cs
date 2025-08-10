@@ -7,6 +7,8 @@ using TicketingApi.Models;
 using TicketingApi.Middleware;
 using TicketingApi.HealthChecks;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using Microsoft.OpenApi.Models;
 using TicketingApi;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -46,7 +48,38 @@ builder.Services.AddControllers().AddJsonOptions(options =>
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo 
+    { 
+        Title = "Ticketing API", 
+        Version = "v1",
+        Description = "A comprehensive ticketing system API with project, task, and user management capabilities.",
+        Contact = new OpenApiContact
+        {
+            Name = "API Support",
+            Email = "support@ticketingapi.com"
+        }
+    });
+    
+    // Include XML comments for better documentation
+    var xmlFile = $"{System.Reflection.Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+    if (File.Exists(xmlPath))
+    {
+        c.IncludeXmlComments(xmlPath);
+    }
+    
+    // Add health check endpoint to Swagger
+    c.TagActionsBy(api =>
+    {
+        if (api.RelativePath?.Contains("health") == true)
+        {
+            return new[] { "Health" };
+        }
+        return new[] { "Default" };
+    });
+});
 
 var app = builder.Build();
 
@@ -66,7 +99,37 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-// Add health check endpoint
-app.MapHealthChecks("/health");
+// Add health check endpoint with Swagger documentation
+app.MapHealthChecks("/health", new HealthCheckOptions
+{
+    ResponseWriter = async (context, report) =>
+    {
+        context.Response.ContentType = "application/json";
+        
+        var result = new
+        {
+            status = report.Status.ToString(),
+            totalDuration = report.TotalDuration.ToString(),
+            timestamp = DateTime.UtcNow,
+            checks = report.Entries.Select(entry => new
+            {
+                name = entry.Key,
+                status = entry.Value.Status.ToString(),
+                description = entry.Value.Description,
+                duration = entry.Value.Duration.ToString(),
+                data = entry.Value.Data,
+                tags = entry.Value.Tags
+            })
+        };
+        
+        var jsonResult = System.Text.Json.JsonSerializer.Serialize(result, new System.Text.Json.JsonSerializerOptions
+        {
+            WriteIndented = true,
+            PropertyNamingPolicy = System.Text.Json.JsonNamingPolicy.CamelCase
+        });
+        
+        await context.Response.WriteAsync(jsonResult);
+    }
+}).WithName("HealthCheck");
 
 app.Run();

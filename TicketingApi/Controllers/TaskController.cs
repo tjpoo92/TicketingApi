@@ -5,6 +5,7 @@ using TicketingApi.Services.Interfaces;
 
 [ApiController]
 [Route("api/[controller]")]
+[Produces("application/json")]
 
 public class TaskController : Controller {
     private readonly ITaskService _taskService;

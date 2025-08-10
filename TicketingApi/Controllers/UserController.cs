@@ -5,6 +5,7 @@ using TicketingApi.Services.Interfaces;
 
 [ApiController]
 [Route("api/[controller]")]
+[Produces("application/json")]
 
 public class UserController : Controller {
     private readonly IUserService _userService;
