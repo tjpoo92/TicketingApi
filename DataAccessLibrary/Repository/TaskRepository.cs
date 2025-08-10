@@ -21,11 +21,10 @@ namespace DataAccessLibrary.Repository
 			return await db.LoadDataAsync<TaskEntity, dynamic>(sql, new { }, _connectionString);
 		}
 
-		public async Task<TaskEntity> GetTaskByIdAsync(int id)
+		public async Task<TaskEntity?> GetTaskByIdAsync(int id)
 		{
 			string sql = "SELECT task_id AS taskId, project_id AS projectId, created_by AS createdBy, assigned_to AS assignedTo, predessor_task AS predessorTask, date_due AS dateDue, date_completed AS dateCompleted, task_name AS taskName, task_description AS taskDescription, status, priority, created_at AS createdAt, updated_at AS updatedAt FROM dbo.tasks WHERE task_id = @Id";
-			var tasks = await db.LoadDataAsync<TaskEntity, dynamic>(sql, new { Id = id }, _connectionString);
-			return tasks.SingleOrDefault();
+			return await db.LoadSingleDataAsync<TaskEntity, dynamic>(sql, new { Id = id }, _connectionString);
 		}
 
 		public async Task<IEnumerable<TaskEntity>> GetTasksByProjectIdAsync(int projectID)

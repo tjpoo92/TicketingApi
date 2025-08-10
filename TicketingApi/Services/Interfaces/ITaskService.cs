@@ -1,8 +1,11 @@
 using TicketingApi.Models;
 
-public interface ITaskService {
+namespace TicketingApi.Services.Interfaces;
+
+public interface ITaskService
+{
     Task<IEnumerable<TaskModel>> GetAllTasksAsync();
-    Task<TaskModel> GetTaskByIdAsync(int id);
+    Task<TaskModel?> GetTaskByIdAsync(int id);
     Task<IEnumerable<TaskModel>> GetTasksByProjectIdAsync(int projectID);
     Task<IEnumerable<TaskModel>> GetTasksByUserIdAsync(int userID);
     Task CreateTaskAsync(TaskModel task);

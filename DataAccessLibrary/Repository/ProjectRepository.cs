@@ -20,11 +20,10 @@ namespace DataAccessLibrary.Repository
 			return db.LoadDataAsync<ProjectEntity, dynamic>(sql, new { }, _connectionString);
 		}
 		
-		public async Task<ProjectEntity> GetProjectByIdAsync(int id)
+		public async Task<ProjectEntity?> GetProjectByIdAsync(int id)
 		{
 			string sql = "SELECT project_id as ProjectId, created_by as CreatedBy, date_due as DateDue, date_completed as DateCompleted, project_name as ProjectName, project_description as ProjectDescription, status as Status, priority as Priority, created_at as CreatedAt, updated_at as UpdatedAt FROM dbo.projects WHERE project_id = @Id";
-			IEnumerable<ProjectEntity> output = await db.LoadDataAsync<ProjectEntity, dynamic>(sql, new { Id = id }, _connectionString);
-			return output.First();
+			return await db.LoadSingleDataAsync<ProjectEntity, dynamic>(sql, new { Id = id }, _connectionString);
 		}
 
 		public async Task CreateProjectAsync(ProjectEntity project)

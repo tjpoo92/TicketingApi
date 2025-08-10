@@ -1,14 +1,14 @@
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using TicketingApi.Models;
-using TicketingApi.Services;
+using TicketingApi.Services.Interfaces;
 
 [ApiController]
 [Route("api/[controller]")]
 public class ProjectController : Controller {
-    private readonly ProjectService _projectService;
+    private readonly IProjectService _projectService;
 
-    public ProjectController(ProjectService projectService) {
+    public ProjectController(IProjectService projectService) {
         _projectService = projectService;
     }
 
@@ -26,9 +26,9 @@ public class ProjectController : Controller {
     }
 
     [HttpPost]
-    public async Task CreateProject([FromBody] ProjectModel project) {
+    public async Task<ActionResult<ProjectModel>> CreateProject([FromBody] ProjectModel project) {
         await _projectService.CreateProjectAsync(project);
-        // return CreatedAtAction(nameof(GetProjectByID), new {id=newProject.ProjectId}, newProject);
+        return CreatedAtAction(nameof(GetProjectById), new { id = project.ProjectId }, project);
     }
     
     [HttpPatch("{id}")]

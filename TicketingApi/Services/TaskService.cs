@@ -2,13 +2,16 @@ using DataAccessLibrary.Entity;
 using DataAccessLibrary.Repository;
 using DataAccessLibrary.Repository.Interfaces;
 using TicketingApi.Models;
+using TicketingApi.Services.Interfaces;
+
+namespace TicketingApi.Services;
 
 public class TaskService : ITaskService {
-    private readonly TaskRepository _taskRepository;
+    private readonly ITaskRepository _taskRepository;
     private readonly Validator _validator;
     private readonly AutoMapper.IMapper _mapper;
 
-    public TaskService(TaskRepository taskRepository, Validator validator, AutoMapper.IMapper mapper) {
+    public TaskService(ITaskRepository taskRepository, Validator validator, AutoMapper.IMapper mapper) {
         _taskRepository = taskRepository;
         _validator = validator;
         _mapper = mapper;
@@ -25,7 +28,7 @@ public class TaskService : ITaskService {
         return tasks;
     }
 
-    public async Task<TaskModel> GetTaskByIdAsync(int id)
+    public async Task<TaskModel?> GetTaskByIdAsync(int id)
     {
         _validator.ValidateId(id, "Task");
     

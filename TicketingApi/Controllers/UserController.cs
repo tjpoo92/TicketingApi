@@ -1,14 +1,15 @@
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using TicketingApi.Models;
+using TicketingApi.Services.Interfaces;
 
 [ApiController]
 [Route("api/[controller]")]
 
 public class UserController : Controller {
-    private readonly UserService _userService;
+    private readonly IUserService _userService;
 
-    public UserController (UserService userService) {
+    public UserController (IUserService userService) {
         _userService = userService;
     }
 

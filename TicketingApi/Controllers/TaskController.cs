@@ -1,14 +1,15 @@
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using TicketingApi.Models;
+using TicketingApi.Services.Interfaces;
 
 [ApiController]
 [Route("api/[controller]")]
 
 public class TaskController : Controller {
-    private readonly TaskService _taskService;
+    private readonly ITaskService _taskService;
 
-    public TaskController(TaskService taskService) {
+    public TaskController(ITaskService taskService) {
         _taskService = taskService;
     }
 

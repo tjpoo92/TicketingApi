@@ -1,15 +1,17 @@
 using DataAccessLibrary.Entity;
 using DataAccessLibrary.Repository;
+using DataAccessLibrary.Repository.Interfaces;
 using TicketingApi.Models;
+using TicketingApi.Services.Interfaces;
 
 namespace TicketingApi.Services;
 
 public class ProjectService : IProjectService {
-	private readonly ProjectRepository _projectRepository;
+	private readonly IProjectRepository _projectRepository;
 	private readonly Validator _validator;
     private readonly AutoMapper.IMapper _mapper;
 
-    public ProjectService(ProjectRepository projectRepository, Validator validator, AutoMapper.IMapper mapper) {
+    public ProjectService(IProjectRepository projectRepository, Validator validator, AutoMapper.IMapper mapper) {
 		_projectRepository = projectRepository;
 		_validator = validator;
         _mapper = mapper;
@@ -22,7 +24,7 @@ public class ProjectService : IProjectService {
 		return projects;
 	}
 
-	public async Task<ProjectModel> GetProjectByIdAsync(int id) {
+	public async Task<ProjectModel?> GetProjectByIdAsync(int id) {
 	    // _validator.ValidateId(id, "Project");
 
 	    var projectFromDatabase = await _projectRepository.GetProjectByIdAsync(id);
