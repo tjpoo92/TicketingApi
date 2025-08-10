@@ -1,4 +1,6 @@
-﻿namespace TicketingApi.Models;
+﻿using DataAccessLibrary.Entity;
+
+namespace TicketingApi.Models;
 
 public class TaskModel
 {

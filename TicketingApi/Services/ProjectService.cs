@@ -1,8 +1,6 @@
 using DataAccessLibrary.Entity;
 using DataAccessLibrary.Repository;
 using TicketingApi.Models;
-using Priority = TicketingApi.Models.Priority;
-using Status = TicketingApi.Models.Status;
 
 namespace TicketingApi.Services;
 

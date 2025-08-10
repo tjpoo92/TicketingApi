@@ -2,8 +2,6 @@ using DataAccessLibrary.Entity;
 using DataAccessLibrary.Repository;
 using DataAccessLibrary.Repository.Interfaces;
 using TicketingApi.Models;
-using Priority = TicketingApi.Models.Priority;
-using Status = TicketingApi.Models.Status;
 
 public class UserService : IUserService {
 

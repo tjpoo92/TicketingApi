@@ -37,8 +37,8 @@ public class MappingProfileTests
 
         var model = _mapper.Map<ProjectModel>(entity);
         model.ProjectDescription.Should().NotBeNull();
-        model.Priority.Should().Be(TicketingApi.Models.Priority.High);
-        model.Status.Should().Be(TicketingApi.Models.Status.InReview);
+        model.Priority.Should().Be(DataAccessLibrary.Entity.Priority.High);
+        model.Status.Should().Be(DataAccessLibrary.Entity.Status.InReview);
 
         var back = _mapper.Map<ProjectEntity>(model);
         back.Priority.Should().Be(DataAccessLibrary.Entity.Priority.High);
@@ -69,8 +69,8 @@ public class MappingProfileTests
         model.Status.Should().BeNull();
         model.Priority.Should().BeNull();
 
-        model.Status = TicketingApi.Models.Status.Scoping;
-        model.Priority = TicketingApi.Models.Priority.Low;
+        model.Status = DataAccessLibrary.Entity.Status.Scoping;
+        model.Priority = DataAccessLibrary.Entity.Priority.Low;
 
         var back = _mapper.Map<TaskEntity>(model);
         back.Status.Should().Be(DataAccessLibrary.Entity.Status.Scoping);
